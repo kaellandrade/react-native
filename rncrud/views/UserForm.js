@@ -1,9 +1,11 @@
-import React from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import React, { useState } from 'react';
+import { Text, View, StyleSheet } from 'react-native';
 
-const UserForm = props => {
+const UserForm = ({ route, navigator }) => {
+    const [user, setUser] = useState(route.params ? route.params : {})
+
     return (
-        <Text>UserForm</Text>
+        <Text>{JSON.stringify(user)}</Text>
     );
 }
 
