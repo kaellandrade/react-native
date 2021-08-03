@@ -1,0 +1,19 @@
+{
+	"Componente Funcional": {
+		"scope": "javascript",
+		"prefix": "compfunc",
+		"body": [
+			"import React from 'react';",
+			"import {Text} from 'react-native';",
+			"",
+			"const Comp = props => {",
+			"    return (",
+			"        <Text>$1</Text>",
+			"    );",
+			"}",
+			"",
+			"export default Comp;"
+		],
+		"description": "Log output to console"
+	}
+}
