@@ -1,10 +1,11 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useContext } from 'react';
 import { Text, View, StyleSheet, Alert } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { ListItem, Avatar, Button, Icon } from 'react-native-elements'
+import UsersContext from '../context/UsersContext';
 
-import users from '../data/user';
 const UserList = props => {
+    const { state, dispatch } = useContext(UsersContext);
     /**
      * Verifica se o usuário deseja relmente deletar
      */
@@ -14,7 +15,10 @@ const UserList = props => {
                 {
                     text: 'Sim',
                     onPress() {
-                        console.warn(`Deletado ${user.name}`)
+                        dispatch({
+                            type: 'deleteUser',
+                            payload: user
+                        })
                     }
                 },
                 { text: 'Não' }
@@ -53,7 +57,7 @@ const UserList = props => {
     return (
         <View>
             <FlatList
-                data={users}
+                data={state.users}
                 keyExtractor={user => String(user.id)}
                 renderItem={getUserItem}
             />
