@@ -2,7 +2,9 @@
 
 # Telas
 <p float="left">
-  <img src="./telas/game.jpg" width="200" />
-  <img src="./telas/game2.jpg" width="200" /> 
-  <img src="./telas/game3.jpg" width="200" /> 
+  <img src="./telas/splash.jpg" width="200" title='Tela Splash' />
+  <img src="./telas/read.jpg" width="200" title='Listar'/> 
+  <img src="./telas/edit.jpg" width="200" title='Editar'/> 
+  <img src="./telas/delete.jpg" width="200" title='Apagar'/> 
+
 </p>
