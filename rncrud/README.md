@@ -1,4 +1,5 @@
 # Cadastro completo com Hooks e Contenxt API
+Aqui aprendir utilizar o Context API para compartilhar dados pela minha árvores de componentes. Além disso, aprendi a utilizar o `useReducer` e o `useContext`.
 
 # Telas
 <p float="left">
