@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, ImageBackground } from 'react-native';
+import Task from '../components/Task';
 import TodayImage from '../../assets/imgs/today.png';
+
 import comonStyles from '../comonStyles';
 
 import moment from 'moment';
@@ -10,7 +12,7 @@ import 'moment/locale/pt-br';
  */
 class TaskList extends Component {
     render() {
-        const today = moment().locale('pt-br').format('ddd, D [de] MMMM')
+        const today = moment().locale('pt-br').format('ddd, D [de] MMMM');
         return (
             <View style={styles.container}>
                 <ImageBackground style={styles.backGround} source={TodayImage}>
@@ -20,7 +22,10 @@ class TaskList extends Component {
                     </View>
                 </ImageBackground>
                 <View style={styles.taskList}>
-                    <Text></Text>
+                    <Task desc='Ler Livro' estimateAt={new Date()} />
+                    <Task desc='Comprar Livro' estimateAt={new Date()} doneAt={new Date()} />
+                    <Task desc='Estudar Java Script' estimateAt={new Date()} doneAt={new Date()} />
+
                 </View>
             </View>
         );
