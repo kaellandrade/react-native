@@ -8,11 +8,13 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import moment from 'moment';
 import 'moment/locale/pt-br';
+import AddTask from './AddTasks';
 /**
  * Componente principal.
  */
 class TaskList extends Component {
     state = {
+        showAddTask: true,
         showDoneTasks: true,
         darkModel: false,
         visibleTasks: [],
@@ -133,6 +135,7 @@ class TaskList extends Component {
         const today = moment().locale('pt-br').format('ddd, D [de] MMMM');
         return (
             <View style={styles.container}>
+                <AddTask isVisible={this.state.showAddTask} onCancel={_ => { this.setState({ showAddTask: false }) }} />
                 <ImageBackground style={styles.backGround} source={TodayImage}>
                     <View style={styles.container2}>
                         <View style={[styles.iconBar]}>
