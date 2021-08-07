@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, TouchableWithoutFeedback, Vibration } from 'react-native';
 import comonStyles from '../comonStyles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
@@ -25,11 +25,11 @@ const getCheckView = doneAt => {
     }
 
 }
+const VIBRATION_TIME = 1000 * 0.1;
 
 const Task = props => {
-
     const date = props.doneAt ? props.doneAt : props.estimateAt;
-    const formatteddate = moment(date).locale('pt-br').format('ddd, D, [de] MMMM');
+    const formatteddate = moment(date).locale('pt-br').format('LLLL');
 
     const doneOrNotStyle = props.doneAt ? {
         textDecorationLine: 'line-through'
@@ -37,13 +37,18 @@ const Task = props => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.checkContainer}>
-                {getCheckView(props.doneAt)}
-            </View>
+            <TouchableWithoutFeedback onPress={() => {
+                props.toggleTask(props.id);
+                Vibration.vibrate(VIBRATION_TIME);
+            }
+            }>
+                <View style={styles.checkContainer}>
+                    {getCheckView(props.doneAt)}
+                </View>
+            </TouchableWithoutFeedback>
 
             <View>
-
-                <Text style={[styles.descricao, doneOrNotStyle]}>{props.desc}</Text>
+                <Text style={styles.descricao, doneOrNotStyle}>{props.desc}</Text>
                 <Text style={styles.date}>{formatteddate}</Text>
                 {/* <Text>{String(props.doneAt)}</Text> */}
             </View>
@@ -90,7 +95,7 @@ const styles = StyleSheet.create({
         fontFamily: comonStyles.fontFamily,
         color: comonStyles.colors.subText,
         fontSize: 12
-    }
+    },
 
 });
 
