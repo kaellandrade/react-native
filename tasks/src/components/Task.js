@@ -1,33 +1,40 @@
 import React from 'react';
-import { Text, View, StyleSheet, TouchableWithoutFeedback, Vibration } from 'react-native';
+import {
+    Text,
+    View,
+    StyleSheet,
+    TouchableWithoutFeedback,
+    Vibration,
+    Alert
+} from 'react-native';
 import comonStyles from '../comonStyles';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 import 'moment/locale/pt-br';
+// TODO: Refatorar o darkModel
 /**
  * Criar os checkBox 
  */
-const getCheckView = doneAt => {
-    if (!doneAt) {
-        return (
-            <View style={styles.pending}>
-            </View>
-        );
-
-    }
-    else {
-
-        return (
-            <View style={styles.done}>
-                <Icon name='check' size={20} color='#FFF' />
-            </View>
-        );
-    }
-
-}
-const VIBRATION_TIME = 1000 * 0.1;
+const VIBRATION_TIME = 1000 * 0.03;
 
 const Task = props => {
+    const getCheckView = doneAt => {
+        if (!doneAt) {
+            return (
+                <View style={[styles.pending, { borderColor: props.darkModel ? '#999' : '#555' }]} />
+            );
+
+        }
+        else {
+            return (
+                <View style={[styles.done, { borderColor: props.darkModel ? 'white' : 'black' }]}>
+                    <Icon name='check' size={20} color='#FFF' />
+                </View>
+            );
+        }
+
+    }
+
     const date = props.doneAt ? props.doneAt : props.estimateAt;
     const formatteddate = moment(date).locale('pt-br').format('LLLL');
 
@@ -40,6 +47,7 @@ const Task = props => {
             <TouchableWithoutFeedback onPress={() => {
                 props.toggleTask(props.id);
                 Vibration.vibrate(VIBRATION_TIME);
+
             }
             }>
                 <View style={styles.checkContainer}>
@@ -48,8 +56,8 @@ const Task = props => {
             </TouchableWithoutFeedback>
 
             <View>
-                <Text style={styles.descricao, doneOrNotStyle}>{props.desc}</Text>
-                <Text style={styles.date}>{formatteddate}</Text>
+                <Text style={[styles.descricao, doneOrNotStyle, props.darkModel ? { color: 'white' } : { color: 'black' }]}>{props.desc}</Text>
+                <Text style={styles.date, props.darkModel ? { color: comonStyles.colors.secundary } : { color: 'black' }}>{formatteddate}</Text>
                 {/* <Text>{String(props.doneAt)}</Text> */}
             </View>
         </View>
@@ -74,7 +82,6 @@ const styles = StyleSheet.create({
         height: 25,
         borderRadius: 13,
         borderWidth: 1,
-        borderColor: '#555',
 
     },
     done: {
@@ -84,7 +91,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         backgroundColor: '#3e964fff',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+
     },
     descricao: {
         fontFamily: comonStyles.fontFamily,

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, ImageBackground, FlatList } from 'react-native';
+import { Text, View, StyleSheet, ImageBackground, FlatList, TouchableOpacity, Platform, Dimensions } from 'react-native';
 import Task from '../components/Task';
 import TodayImage from '../../assets/imgs/today.png';
 
 import comonStyles from '../comonStyles';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import moment from 'moment';
 import 'moment/locale/pt-br';
@@ -12,6 +13,9 @@ import 'moment/locale/pt-br';
  */
 class TaskList extends Component {
     state = {
+        showDoneTasks: true,
+        darkModel: false,
+        visibleTasks: [],
         tasks: [
             {
                 id: Math.random(),
@@ -74,6 +78,29 @@ class TaskList extends Component {
             }
         ]
     }
+    componentDidMount = _ => {
+        this.filterTasks();
+    }
+
+    filterTasks = () => {
+        let visibleTasks = null;
+        if (this.state.showDoneTasks) {
+            visibleTasks = [...this.state.tasks];
+        } else {
+            const pending = task => task.doneAt === undefined;
+            visibleTasks = this.state.tasks.filter(pending);
+        }
+        this.setState({ ...this.state, visibleTasks });
+    }
+
+    toggleFilter = _ => {
+        this.setState({ showDoneTasks: !this.state.showDoneTasks }, this.filterTasks)
+    }
+
+    toggleDarkModel = _ => {
+        this.setState({ darkModel: !this.state.darkModel })
+    }
+
     /**
      * Altera entre um checked
      * TODO: Refatorar usando o forEach
@@ -84,23 +111,22 @@ class TaskList extends Component {
             if (task.id === taskID) {
                 if (task.doneAt)
                     return { id: task.id, desc: task.desc, estimateAt: task.estimateAt }
-                else{
+                else {
                     return { ...task, doneAt: new Date() }
-
                 }
 
             } else {
                 return task
             }
         })
-        this.setState({ tasks: newTask });
+        this.setState({ tasks: newTask }, this.filterTasks);
     }
 
     /**
      * Renderiza uma tarefa.
      */
     renderItem = ({ item }) => {
-        return (<Task {...item} toggleTask={this.toggleTask} />)
+        return (<Task {...item} toggleTask={this.toggleTask} darkModel={this.state.darkModel} />)
     }
 
     render() {
@@ -108,14 +134,25 @@ class TaskList extends Component {
         return (
             <View style={styles.container}>
                 <ImageBackground style={styles.backGround} source={TodayImage}>
-                    <View style={styles.titleBar}>
-                        <Text style={styles.title}>Hoje</Text>
-                        <Text style={styles.SubTitle} >{today}</Text>
+                    <View style={styles.container2}>
+                        <View style={[styles.iconBar]}>
+                            <TouchableOpacity style={{ marginRight: 10 }} onPress={this.toggleFilter}>
+                                <Icon color={comonStyles.colors.secundary} size={comonStyles.icon.size_md} name={this.state.showDoneTasks ? 'eye' : 'eye-slash'} />
+                            </TouchableOpacity>
+
+                            <TouchableOpacity onPress={this.toggleDarkModel}>
+                                <Icon color={comonStyles.colors.secundary} size={comonStyles.icon.size_md} name={this.state.darkModel ? 'sun' : 'moon'} />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.titleBar}>
+                            <Text style={styles.title}>Hoje</Text>
+                            <Text style={styles.SubTitle} >{today}</Text>
+                        </View>
                     </View>
                 </ImageBackground>
-                <View style={styles.taskList}>
+                <View style={[styles.taskList, this.state.darkModel ? { backgroundColor: 'black' } : { backgroundColor: 'white' }]}>
                     <FlatList
-                        data={this.state.tasks}
+                        data={this.state.visibleTasks}
                         renderItem={this.renderItem}
                         keyExtractor={item => String(item.id)}
                     />
@@ -126,7 +163,11 @@ class TaskList extends Component {
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+    },
+    container2: {
+        flexDirection: 'row-reverse',
+        justifyContent: 'space-evenly'
     },
     backGround: {
         flex: 3
@@ -135,8 +176,8 @@ const styles = StyleSheet.create({
         flex: 7
     },
     titleBar: {
-        flex: 1,
-        alignItems: "flex-start"
+        alignItems: "flex-start",
+
     },
     title: {
         fontFamily: 'Lato',
@@ -151,6 +192,13 @@ const styles = StyleSheet.create({
         color: comonStyles.colors.secundary,
         marginBottom: 20,
         marginLeft: 20
+    },
+    iconBar: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        marginHorizontal: 20,
+        marginTop: Platform.OS === 'ios' ? 30 : 10,
+        flex: 1
     }
 });
 
