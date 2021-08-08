@@ -46,16 +46,34 @@ const Task = props => {
 
     const getRightContent = () => {
         return (
-            <TouchableOpacity style={styles.right}>
+            <TouchableOpacity style={styles.right} onPress={_ => props.onDelete && props.onDelete(props.id)}>
                 <Icon name="trash" size={comonStyles.icon.size_md} color='#fff' />
             </TouchableOpacity>
         )
 
     }
 
+    const getLeftContent = () => {
+        return (
+            <View style={styles.left}>
+                <Icon style={styles.excludeIcon} name="trash" size={comonStyles.icon.size_sm} color='#fff' />
+                <Text style={styles.excludeText}>Excluir</Text>
+            </View>
+        )
+
+    }
+
     return (
-        <Swipeable renderRightActions={getRightContent} onSwipeableRightWillOpen={_ => Vibration.vibrate(VIBRATION_TIME.swipeable)} >
-            <View style={styles.container}>
+        <Swipeable
+            onSwipeableLeftWillOpen={_ => {
+                props.onDelete && props.onDelete(props.id);
+                Vibration.vibrate(VIBRATION_TIME.swipeable);
+            }}
+            renderLeftActions={getLeftContent}
+            renderRightActions={getRightContent}
+            onSwipeableRightWillOpen={_ => Vibration.vibrate(VIBRATION_TIME.swipeable)
+            } >
+            <View style={[styles.container, props.darkModel ? { backgroundColor: 'black' } : { backgroundColor: 'white' }]}>
                 <TouchableWithoutFeedback onPress={() => {
                     props.toggleTask(props.id);
                     Vibration.vibrate(VIBRATION_TIME.check);
@@ -83,7 +101,7 @@ const styles = StyleSheet.create({
         borderColor: '#aaa',
         borderBottomWidth: 1,
         paddingVertical: 10,
-        alignItems: 'center'
+        alignItems: 'center',
     },
     checkContainer: {
         width: '20%',
@@ -118,11 +136,28 @@ const styles = StyleSheet.create({
         fontSize: 12
     },
     right: {
-        backgroundColor: comonStyles.colors.today,
+        backgroundColor: '#ff173eff',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'flex-end',
         paddingHorizontal: 20
+    },
+    left: {
+        backgroundColor: "#ff173eff",
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: 1
+
+
+    },
+    excludeText: {
+        fontFamily: comonStyles.fontFamily,
+        color: '#FFF',
+        fontSize: 20,
+        margin: 10
+    },
+    excludeIcon: {
+        marginLeft: 10
     }
 
 });

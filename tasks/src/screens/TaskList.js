@@ -8,89 +8,44 @@ import {
     Platform,
     Alert
 } from 'react-native';
-import Task from '../components/Task';
-import TodayImage from '../../assets/imgs/today.png';
-
-import comonStyles from '../comonStyles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
 import moment from 'moment';
 import 'moment/locale/pt-br';
+import AsyncStorage from "@react-native-community/async-storage"
+
+import Task from '../components/Task';
+import comonStyles from '../comonStyles';
+import TodayImage from '../../assets/imgs/today.png';
 import AddTask from './AddTasks';
+
+const initialState = {
+    showAddTask: false,
+    showDoneTasks: true,
+    darkModel: false,
+    visibleTasks: [],
+    tasks: [
+
+    ]
+};
 /**
  * Componente principal.
  */
 class TaskList extends Component {
     state = {
-        showAddTask: false,
-        showDoneTasks: true,
-        darkModel: false,
-        visibleTasks: [],
-        tasks: [
-            {
-                id: 1,
-                desc: 'Comprar livro de React Native',
-                estimateAt: new Date(),
-            },
-            {
-                id: 2,
-                desc: 'Finalizar trabalho POO',
-                estimateAt: new Date(),
-            },
-            {
-                id: 3,
-                desc: 'Ligar para mãe',
-                estimateAt: new Date(),
-                doneAt: new Date(),
-            },
-            {
-                id: 4,
-                desc: 'Falar com o professor sobre o projeto',
-                estimateAt: new Date(),
-                doneAt: new Date(2018, 11, 27),
-            },
-            {
-                id: 5,
-                desc: 'Estudar Estruturas de Dados',
-                estimateAt: new Date(2021, 7, 3),
-                doneAt: new Date(2021, 7, 5),
-            },
-            {
-                id: 6,
-                desc: 'Comprar curso de Dev WEB',
-                estimateAt: new Date(),
-            },
-            {
-                id: 7,
-                desc: 'Realizar Matrícula UFS',
-                estimateAt: new Date(),
-            },
-            {
-                id: 8,
-                desc: 'Estudar Grafos',
-                estimateAt: new Date(),
-            },
-            {
-                id: 9,
-                desc: 'Lavar o Carro',
-                estimateAt: new Date(),
-                doneAt: new Date(),
-            },
-            {
-                id: 10,
-                desc: 'Estudar Python',
-                estimateAt: new Date(),
-            },
-            {
-                id: 11,
-                desc: 'Ir ao mercado',
-                estimateAt: new Date(),
-            }
-        ]
+        ...initialState
     }
-    componentDidMount = _ => {
+    componentDidMount = async _ => {
+        const stateString = await AsyncStorage.getItem('taskState');
+        const state = JSON.parse(stateString) || initialState;
+        this.setState(state, this.filterTasks);
         this.filterTasks();
     }
+
+    deleteTask = id => {
+        const tasks = this.state.tasks.filter((task) => (task.id !== id));
+        this.setState({ tasks }, this.filterTasks);
+    }
+
     addTask = newTask => {
         if (!newTask.desc.trim()) {
             Alert.alert("Dados Inválidos", 'Informe uma descrição')
@@ -100,8 +55,6 @@ class TaskList extends Component {
         const tasks = [...this.state.tasks];
         tasks.push({ id: Math.random(), desc: newTask.desc, estimateAt: newTask.date });
         this.setState({ tasks, showAddTask: false }, this.filterTasks);
-
-
 
     }
 
@@ -114,6 +67,7 @@ class TaskList extends Component {
             visibleTasks = this.state.tasks.filter(pending);
         }
         this.setState({ ...this.state, visibleTasks });
+        AsyncStorage.setItem('taskState', JSON.stringify(this.state));
     }
 
     toggleFilter = _ => {
@@ -137,7 +91,6 @@ class TaskList extends Component {
                 else {
                     return { ...task, doneAt: new Date() }
                 }
-
             } else {
                 return task
             }
@@ -149,7 +102,7 @@ class TaskList extends Component {
      * Renderiza uma tarefa.
      */
     renderItem = ({ item }) => {
-        return (<Task {...item} toggleTask={this.toggleTask} darkModel={this.state.darkModel} />)
+        return (<Task {...item} onDelete={this.deleteTask} toggleTask={this.toggleTask} darkModel={this.state.darkModel} />)
     }
 
     render() {
