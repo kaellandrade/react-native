@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, ImageBackground, FlatList, TouchableOpacity, Platform, Dimensions } from 'react-native';
+import {
+    Text, View,
+    StyleSheet,
+    ImageBackground,
+    FlatList,
+    TouchableOpacity,
+    Platform,
+    Alert
+} from 'react-native';
 import Task from '../components/Task';
 import TodayImage from '../../assets/imgs/today.png';
 
@@ -14,67 +22,67 @@ import AddTask from './AddTasks';
  */
 class TaskList extends Component {
     state = {
-        showAddTask: true,
+        showAddTask: false,
         showDoneTasks: true,
         darkModel: false,
         visibleTasks: [],
         tasks: [
             {
-                id: Math.random(),
+                id: 1,
                 desc: 'Comprar livro de React Native',
                 estimateAt: new Date(),
             },
             {
-                id: Math.random(),
+                id: 2,
                 desc: 'Finalizar trabalho POO',
                 estimateAt: new Date(),
             },
             {
-                id: Math.random(),
+                id: 3,
                 desc: 'Ligar para mãe',
                 estimateAt: new Date(),
                 doneAt: new Date(),
             },
             {
-                id: Math.random(),
+                id: 4,
                 desc: 'Falar com o professor sobre o projeto',
                 estimateAt: new Date(),
                 doneAt: new Date(2018, 11, 27),
             },
             {
-                id: Math.random(),
+                id: 5,
                 desc: 'Estudar Estruturas de Dados',
                 estimateAt: new Date(2021, 7, 3),
                 doneAt: new Date(2021, 7, 5),
             },
             {
-                id: Math.random(),
+                id: 6,
                 desc: 'Comprar curso de Dev WEB',
                 estimateAt: new Date(),
             },
             {
-                id: Math.random(),
+                id: 7,
                 desc: 'Realizar Matrícula UFS',
                 estimateAt: new Date(),
             },
             {
-                id: Math.random(),
+                id: 8,
                 desc: 'Estudar Grafos',
                 estimateAt: new Date(),
             },
             {
-                id: Math.random(),
+                id: 9,
                 desc: 'Lavar o Carro',
                 estimateAt: new Date(),
                 doneAt: new Date(),
             },
             {
-                id: Math.random(),
+                id: 10,
                 desc: 'Estudar Python',
                 estimateAt: new Date(),
             },
             {
-                id: Math.random(),
+                id: 11,
                 desc: 'Ir ao mercado',
                 estimateAt: new Date(),
             }
@@ -82,6 +90,19 @@ class TaskList extends Component {
     }
     componentDidMount = _ => {
         this.filterTasks();
+    }
+    addTask = newTask => {
+        if (!newTask.desc.trim()) {
+            Alert.alert("Dados Inválidos", 'Informe uma descrição')
+            return;
+        }
+
+        const tasks = [...this.state.tasks];
+        tasks.push({ id: Math.random(), desc: newTask.desc, estimateAt: newTask.date });
+        this.setState({ tasks, showAddTask: false }, this.filterTasks);
+
+
+
     }
 
     filterTasks = () => {
@@ -135,7 +156,7 @@ class TaskList extends Component {
         const today = moment().locale('pt-br').format('ddd, D [de] MMMM');
         return (
             <View style={styles.container}>
-                <AddTask isVisible={this.state.showAddTask} onCancel={_ => { this.setState({ showAddTask: false }) }} />
+                <AddTask isVisible={this.state.showAddTask} onCancel={_ => { this.setState({ showAddTask: false }) }} onSave={this.addTask} />
                 <ImageBackground style={styles.backGround} source={TodayImage}>
                     <View style={styles.container2}>
                         <View style={[styles.iconBar]}>
@@ -160,6 +181,12 @@ class TaskList extends Component {
                         keyExtractor={item => String(item.id)}
                     />
                 </View>
+                <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={_ => this.setState({ showAddTask: true })}
+                    style={styles.addButton}>
+                    <Icon name='plus' size={20} color={comonStyles.colors.secundary} />
+                </TouchableOpacity>
             </View>
         );
     }
@@ -202,6 +229,17 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         marginTop: Platform.OS === 'ios' ? 30 : 10,
         flex: 1
+    },
+    addButton: {
+        position: 'absolute',
+        right: 30,
+        bottom: 30,
+        width: 50,
+        height: 50,
+        borderRadius: 25,
+        backgroundColor: comonStyles.colors.today,
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
 
