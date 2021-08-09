@@ -36,12 +36,12 @@ class AddTask extends Component {
     getDatePicker = () => {
 
         let datePicker = <DateTimePicker mode='datetime' value={this.state.date} onChange={this.onChangeDate} />
-        const dateString = moment(this.state.date).format('llll')
+        const dateString = moment(this.state.date).format('ddd, D MMM [de] YYYY')
         if (Platform.OS === 'android') {
             datePicker = (
                 <View>
                     <TouchableOpacity onPress={_ => this.setState({ showDatePicker: true })}>
-                        <Text style={styles.date}>
+                        <Text style={[styles.date, this.props.darkModel ? { color: 'white' } : { color: 'black' }]}>
                             {dateString}
                         </Text>
                     </TouchableOpacity>
@@ -60,11 +60,11 @@ class AddTask extends Component {
                     <View style={styles.background}>
                     </View>
                 </TouchableWithoutFeedback>
-                <View style={styles.container}>
+                <View style={[styles.container, this.props.darkModel ? { backgroundColor: '#131c21' } : { backgroundColor: 'white' }]}>
                     <Text style={styles.header}>Nova Tarefa</Text>
                     <TextInput
                         onChangeText={desc => this.setState({ desc })}
-                        style={styles.input}
+                        style={[styles.input, this.props.darkModel ? { backgroundColor: '#323739', color: 'white' } : { backgroundColor: '#84888c', color: 'white' }]}
                         placeholder='Ex: Estudar Java Script'
                         value={this.state.desc} />
                     {this.getDatePicker()}

@@ -109,7 +109,7 @@ class TaskList extends Component {
         const today = moment().locale('pt-br').format('ddd, D [de] MMMM');
         return (
             <View style={styles.container}>
-                <AddTask isVisible={this.state.showAddTask} onCancel={_ => { this.setState({ showAddTask: false }) }} onSave={this.addTask} />
+                <AddTask darkModel={this.state.darkModel} isVisible={this.state.showAddTask} onCancel={_ => { this.setState({ showAddTask: false }) }} onSave={this.addTask} />
                 <ImageBackground style={styles.backGround} source={TodayImage}>
                     <View style={styles.container2}>
                         <View style={[styles.iconBar]}>

@@ -38,7 +38,7 @@ const Task = props => {
     }
 
     const date = props.doneAt ? props.doneAt : props.estimateAt;
-    const formatteddate = moment(date).locale('pt-br').format('LLLL');
+    const formatteddate = moment(date).locale('pt-br').format('ddd, D MMM [de] YYYY');
 
     const doneOrNotStyle = props.doneAt ? {
         textDecorationLine: 'line-through'
