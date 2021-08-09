@@ -1,5 +1,5 @@
 # Task List
-Aqui aprendi usar alguns componentes interessantes como o Swipeable, Modal e DateTimePicker. Além disso, também aprendi a armazenar dados permanente com o AsyncStorage.
+Aqui aprendi usar alguns componentes interessantes como o `Swipeable`, `Modal` e `DateTimePicker`. Além disso, também aprendi a armazenar dados permanente com o `AsyncStorage`.
 
 # Telas
 <p float="left">
