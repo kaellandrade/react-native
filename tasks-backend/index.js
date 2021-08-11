@@ -3,8 +3,9 @@ const APP = express();
 const db = require('./config/db');
 const consign = require('consign');
 
-consign().
-    then('./config/middlewares.js')
+consign()
+    .include('./config/passport.js')
+    .then('./config/middlewares.js')
     .then('./api')
     .then('./config/routes.js')
     .into(APP)
