@@ -1,4 +1,4 @@
-# Task List
+# Task List (Versão Offline)
 Aqui aprendi usar alguns componentes interessantes como o `Swipeable`, `Modal` e `DateTimePicker`. Além disso, também aprendi a armazenar dados permanente com o `AsyncStorage`.
 
 # Telas
