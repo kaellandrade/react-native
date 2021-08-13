@@ -47,7 +47,7 @@ class Auth extends Component {
             axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
             this.props.navigation.navigate('Home', { user: 'Kaell' });
         } catch (error) {
-            showError(error)
+            showError(error.response.data.msg)
         }
     }
 
@@ -67,11 +67,28 @@ class Auth extends Component {
             this.setState({ ...initialState });
 
         } catch (error) {
-            showError(error);
+            showError(error.response.data.msg);
         }
+    }
+    /**
+     * Verifica se os dados informados são válidos;
+     */
+
+    get isValid() {
+        // Aqui poderíamos usar uma regex
+        const validations = [];
+        validations.push(this.state.email && this.state.email.includes('@'))
+        validations.push(this.state.password && this.state.password.length >= 6)
+
+        if (this.state.stageNew) {
+            validations.push(this.state.password === this.state.confirmPassword)
+            validations.push(this.state.name && this.state.name.trim().length >= 3)
+        }
+        return validations.reduce((acc, att) => acc && att);
     }
 
     render() {
+
         return (
             <ImageBackground style={styles.background} source={backGroundImage}>
                 <Text style={styles.title}>Todo React</Text>
@@ -115,8 +132,12 @@ class Auth extends Component {
                             value={this.state.confirmPassword}
                         />
                     </If>
-                    <TouchableOpacity onPress={this.signinOrSigout} activeOpacity={0.8}>
-                        <View style={styles.button}>
+                    <TouchableOpacity
+                        onPress={this.signinOrSigout}
+                        activeOpacity={0.8}
+                        disabled={!this.isValid}
+                    >
+                        <View style={[styles.button, !this.isValid ? { backgroundColor: 'gray' } : null]}>
                             <Text style={styles.buttonText}>
                                 {this.state.stageNew ? "Registrar " : "Entrar "}
                                 <Icon size={comonStyles.icon.size_sm} name={this.state.stageNew ? 'plus' : 'sign-in-alt'} />
