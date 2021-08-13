@@ -17,6 +17,7 @@ import Task from '../components/Task';
 import comonStyles from '../comonStyles';
 import TodayImage from '../../assets/imgs/today.png';
 import AddTask from './AddTasks';
+import { greeting } from '../util/getMoment';
 
 const initialState = {
     showAddTask: false,
@@ -122,7 +123,7 @@ class TaskList extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={styles.titleBar}>
-                            <Text style={styles.title}>Hoje</Text>
+                            <Text style={styles.title}>{`${greeting(new Date())}!`}</Text>
                             <Text style={styles.SubTitle} >{today}</Text>
                         </View>
                     </View>

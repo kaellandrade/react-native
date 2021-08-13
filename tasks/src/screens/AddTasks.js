@@ -13,6 +13,7 @@ import comonStyles from '../comonStyles';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 
+
 /**
  * Modal reponsável por cadastrar uma tarefa
  */
@@ -51,6 +52,9 @@ class AddTask extends Component {
         }
         return datePicker;
     }
+
+
+
 
     render() {
         return (
