@@ -6,7 +6,7 @@ import {
     FlatList,
     TouchableOpacity,
     Platform,
-    Alert
+    Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import moment from 'moment';
@@ -18,6 +18,8 @@ import comonStyles from '../comonStyles';
 import TodayImage from '../../assets/imgs/today.png';
 import AddTask from './AddTasks';
 import { greeting } from '../util/getMoment';
+import { server, showError, showSuccess } from '../common';
+import axios from 'axios';
 
 const initialState = {
     showAddTask: false,
@@ -35,28 +37,51 @@ class TaskList extends Component {
     state = {
         ...initialState
     }
+
+    laodTasks = async _ => {
+        try {
+            const maxDate = moment().format('YYYY-MM-DD 23:59:59');
+            const res = await axios.get(`${server}/tasks?date=${maxDate}`);
+            this.setState({ tasks: res.data }, this.filterTasks)
+        } catch (error) {
+            showError(error.response.data.msg)
+        }
+
+    }
+
     componentDidMount = async _ => {
         const stateString = await AsyncStorage.getItem('taskState');
-        const state = JSON.parse(stateString) || initialState;
-        this.setState(state, this.filterTasks);
-        this.filterTasks();
+        const savedState = JSON.parse(stateString) || initialState;
+        this.setState({ showDoneTasks: savedState.showDoneTasks, darkModel: savedState.darkModel }, this.filterTasks);
+        this.laodTasks();
     }
 
-    deleteTask = id => {
-        const tasks = this.state.tasks.filter((task) => (task.id !== id));
-        this.setState({ tasks }, this.filterTasks);
+    deleteTask = async id => {
+        try {
+            await axios.delete(`${server}/tasks/${id}`)
+            this.laodTasks();
+        } catch (error) {
+            showError(error.response.data.msg)
+
+        }
+
     }
 
-    addTask = newTask => {
+    addTask = async newTask => {
         if (!newTask.desc.trim()) {
             Alert.alert("Dados Inválidos", 'Informe uma descrição')
             return;
         }
 
-        const tasks = [...this.state.tasks];
-        tasks.push({ id: Math.random(), desc: newTask.desc, estimateAt: newTask.date });
-        this.setState({ tasks, showAddTask: false }, this.filterTasks);
-
+        try {
+            await axios.post(`${server}/tasks`, {
+                desc: newTask.desc,
+                estimateAt: newTask.date
+            })
+            this.setState({ showAddTask: false }, this.laodTasks);
+        } catch (error) {
+            showError(error.response.data.msg)
+        }
     }
 
     filterTasks = () => {
@@ -68,7 +93,7 @@ class TaskList extends Component {
             visibleTasks = this.state.tasks.filter(pending);
         }
         this.setState({ ...this.state, visibleTasks });
-        AsyncStorage.setItem('taskState', JSON.stringify(this.state));
+        AsyncStorage.setItem('taskState', JSON.stringify({ showDoneTasks: this.state.showDoneTasks, darkModel: this.state.darkModel }));
     }
 
     toggleFilter = _ => {
@@ -76,27 +101,21 @@ class TaskList extends Component {
     }
 
     toggleDarkModel = _ => {
-        this.setState({ darkModel: !this.state.darkModel })
+        this.setState({ darkModel: !this.state.darkModel }, _ => { AsyncStorage.setItem('taskState', JSON.stringify({ darkModel: this.state.darkModel, showDoneTasks: this.state.showDoneTasks })) })
     }
 
     /**
      * Altera entre um checked
      * TODO: Refatorar usando o forEach
      */
-    toggleTask = (taskID) => {
-        const tasks = [...this.state.tasks];
-        const newTask = tasks.map((task) => {
-            if (task.id === taskID) {
-                if (task.doneAt)
-                    return { id: task.id, desc: task.desc, estimateAt: task.estimateAt }
-                else {
-                    return { ...task, doneAt: new Date() }
-                }
-            } else {
-                return task
-            }
-        })
-        this.setState({ tasks: newTask }, this.filterTasks);
+    toggleTask = async (taskID) => {
+        try {
+            await axios.put(`${server}/tasks/${taskID}/toggle`);
+            this.laodTasks();
+        } catch (error) {
+            showError(error.response.data.msg)
+
+        }
     }
 
     /**
@@ -123,11 +142,12 @@ class TaskList extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={styles.titleBar}>
-                            <Text style={styles.title}>{`${greeting(new Date())}!`}</Text>
+                            <Text style={styles.title}>{`Hoje`}</Text>
                             <Text style={styles.SubTitle} >{today}</Text>
                         </View>
                     </View>
                 </ImageBackground>
+
                 <View style={[styles.taskList, this.state.darkModel ? { backgroundColor: 'black' } : { backgroundColor: 'white' }]}>
                     <FlatList
                         data={this.state.visibleTasks}
@@ -150,6 +170,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     container2: {
+
         flexDirection: 'row-reverse',
         justifyContent: 'space-evenly'
     },

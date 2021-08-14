@@ -36,7 +36,7 @@ class AddTask extends Component {
     }
     getDatePicker = () => {
 
-        let datePicker = <DateTimePicker mode='datetime' value={this.state.date} onChange={this.onChangeDate} />
+        let datePicker = <DateTimePicker minimumDate={new Date()} mode='datetime' value={this.state.date} onChange={this.onChangeDate} />
         const dateString = moment(this.state.date).format('ddd, D MMM [de] YYYY')
         if (Platform.OS === 'android') {
             datePicker = (
