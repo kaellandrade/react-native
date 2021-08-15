@@ -15,7 +15,7 @@ module.exports = app => {
             .catch(err => res.status(400).json(err))
     }
     /**
-     * Adiciona uma novaa task
+     * Adiciona uma nova task
      */
     const save = (req, res) => {
         if (!req.body.desc.trim()) {
