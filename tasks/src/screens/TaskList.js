@@ -15,7 +15,12 @@ import AsyncStorage from "@react-native-community/async-storage"
 
 import Task from '../components/Task';
 import comonStyles from '../comonStyles';
+
 import TodayImage from '../../assets/imgs/today.png';
+import TomorrowImage from '../../assets/imgs/tomorrow.png';
+import MonthImage from '../../assets/imgs/month.png';
+import WeekImage from '../../assets/imgs/week.png';
+
 import AddTask from './AddTasks';
 import { greeting } from '../util/getMoment';
 import { server, showError, showSuccess } from '../common';
@@ -40,7 +45,9 @@ class TaskList extends Component {
 
     laodTasks = async _ => {
         try {
-            const maxDate = moment().format('YYYY-MM-DD 23:59:59');
+            const maxDate = moment()
+                .add({ days: this.props.daysAhead })
+                .format('YYYY-MM-DD 23:59:59');
             const res = await axios.get(`${server}/tasks?date=${maxDate}`);
             this.setState({ tasks: res.data }, this.filterTasks)
         } catch (error) {
@@ -64,6 +71,18 @@ class TaskList extends Component {
             showError(error.response.data.msg)
 
         }
+
+    }
+
+    getDayStyle = _ => {
+        if (this.props.daysAhead === 0)
+            return { img: TodayImage, color: comonStyles.colors.today };
+        else if (this.props.daysAhead === 1)
+            return { img: TomorrowImage, color: comonStyles.colors.tomorrow };
+        else if (this.props.daysAhead === 7)
+            return { img: WeekImage, color: comonStyles.colors.week };
+        else
+            return { img: MonthImage, color: comonStyles.colors.month };
 
     }
 
@@ -126,11 +145,11 @@ class TaskList extends Component {
     }
 
     render() {
-        const today = moment().locale('pt-br').format('ddd, D [de] MMMM');
+        const today = moment().add({ days: this.props.daysAhead }).locale('pt-br').format('ddd, D [de] MMMM');
         return (
-            <View style={styles.container}>
+            <View style={styles.container} >
                 <AddTask darkModel={this.state.darkModel} isVisible={this.state.showAddTask} onCancel={_ => { this.setState({ showAddTask: false }) }} onSave={this.addTask} />
-                <ImageBackground style={styles.backGround} source={TodayImage}>
+                <ImageBackground style={styles.backGround} source={this.getDayStyle().img}>
                     <View style={styles.container2}>
                         <View style={[styles.iconBar]}>
                             <TouchableOpacity style={{ marginRight: 10 }} onPress={this.toggleFilter}>
@@ -142,7 +161,12 @@ class TaskList extends Component {
                             </TouchableOpacity>
                         </View>
                         <View style={styles.titleBar}>
-                            <Text style={styles.title}>{`Hoje`}</Text>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <TouchableOpacity style={{ marginLeft: 10 }} onPress={_ => this.props.navigation.openDrawer()}>
+                                    <Icon color={comonStyles.colors.secundary} size={comonStyles.icon.size_md} name='bars' />
+                                </TouchableOpacity>
+                                <Text style={styles.title}>{this.props.title}</Text>
+                            </View>
                             <Text style={styles.SubTitle} >{today}</Text>
                         </View>
                     </View>
@@ -158,7 +182,7 @@ class TaskList extends Component {
                 <TouchableOpacity
                     activeOpacity={0.7}
                     onPress={_ => this.setState({ showAddTask: true })}
-                    style={styles.addButton}>
+                    style={[styles.addButton, { backgroundColor: this.getDayStyle().color }]}>
                     <Icon name='plus' size={20} color={comonStyles.colors.secundary} />
                 </TouchableOpacity>
             </View>
@@ -188,7 +212,6 @@ const styles = StyleSheet.create({
         fontFamily: 'Lato',
         fontSize: 35,
         color: comonStyles.colors.secundary,
-        marginBottom: 20,
         marginLeft: 20
     },
     SubTitle: {
@@ -212,7 +235,6 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 25,
-        backgroundColor: comonStyles.colors.today,
         alignItems: 'center',
         justifyContent: 'center'
     }

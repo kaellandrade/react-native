@@ -6,7 +6,24 @@ import { Text } from 'react-native';
 import Auth from './screens/Auth';
 import TaskList from './screens/TaskList';
 import CalendarIcon from './components/Calendar';
+import Menu from './screens/Menu';
 
+const menuConfig = {
+    initialRouteName: 'Today',
+    contentComponent: Menu,
+    contentOptions: {
+        labelStyle: {
+            fontFamily: comonStyles.fontFamily,
+            fontWeight: 'normal',
+            fontSize: 20
+
+        },
+        activeLabelStyle: {
+            fontWeight: 'bold',
+            color: '#000'
+        }
+    }
+};
 const menuRoutes = {
 
 
@@ -47,7 +64,7 @@ const menuRoutes = {
 }
 
 
-const menuNavigator = createDrawerNavigator(menuRoutes);
+const menuNavigator = createDrawerNavigator(menuRoutes, menuConfig);
 const mainRoutes = {
     Auth: {
         name: 'Auth',
