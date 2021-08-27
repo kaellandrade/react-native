@@ -3,11 +3,15 @@ Aqui aprendi usar alguns componentes interessantes como o `Swipeable`, `Modal` e
 
 # Telas
 <p float="left">
-  <img src="./telas/open.gif" width="200" title='Tela Splash' />
-  <img src="./telas/addTask.gif" width="200" title='Adicionar Tarefa'/> 
-  <img src="./telas/delete.gif" width="200" title='Deletar'/> 
-  <img src="./telas/light_view.gif" width="200" title='Light'/> 
-
+  <img src="./telas/login.png" width="200" title='Login' />
+  <img src="./telas/menu.png" width="200" title='Menu' />
+  <img src="./telas/hoje.png" width="200" title='Amanha'/> 
+  <img src="./telas/amanha.png" width="200" title='Amanha'/> 
+  <img src="./telas/mes.png" width="200" title='Mes'/> 
+  <img src="./telas/semana.png" width="200" title='Semana'/> 
+  <img src="./telas/add.png" width="200" title='Adicionando Task'/> 
+  <img src="./telas/delete.png" width="200" title='Removendo Task'/> 
+  <img src="./telas/deleteSw.png" width="200" title='Removendo Task'/> 
 </p>
 
 # Referências

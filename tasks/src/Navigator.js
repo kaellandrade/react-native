@@ -2,12 +2,15 @@ import React from 'react';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation'
 import { createDrawerNavigator } from 'react-navigation-drawer'
 import comonStyles from './comonStyles';
-import { Text } from 'react-native';
 import Auth from './screens/Auth';
 import TaskList from './screens/TaskList';
 import CalendarIcon from './components/Calendar';
 import Menu from './screens/Menu';
+import AuthOrApp from './screens/AouthOrApp';
 
+/**
+ * TODO: MODO NOTURNO DE SE PROPAGAR PARA TODAS AS TELAS;
+ */
 const menuConfig = {
     initialRouteName: 'Today',
     contentComponent: Menu,
@@ -66,6 +69,10 @@ const menuRoutes = {
 
 const menuNavigator = createDrawerNavigator(menuRoutes, menuConfig);
 const mainRoutes = {
+    AuthOrApp: {
+        name: 'AuthOrApp',
+        screen: AuthOrApp
+    },
     Auth: {
         name: 'Auth',
         screen: Auth
@@ -77,7 +84,7 @@ const mainRoutes = {
 };
 
 const mainNavigator = createSwitchNavigator(mainRoutes, {
-    initialRouteName: 'Auth'
+    initialRouteName: 'AuthOrApp'
 })
 
 export default createAppContainer(mainNavigator);

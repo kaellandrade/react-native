@@ -13,7 +13,6 @@ const greeting = (date) => {
     } else {
         return `Bom dia`
     }
-
 }
 
-export {greeting};
+export { greeting };

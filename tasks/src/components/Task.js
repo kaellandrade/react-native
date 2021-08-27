@@ -88,7 +88,6 @@ const Task = props => {
                 <View>
                     <Text style={[styles.descricao, doneOrNotStyle, props.darkModel ? { color: 'white' } : { color: 'black' }]}>{props.desc}</Text>
                     <Text style={styles.date, props.darkModel ? { color: comonStyles.colors.secundary } : { color: 'black' }}>{formatteddate}</Text>
-                    {/* <Text>{String(props.doneAt)}</Text> */}
                 </View>
             </View>
         </Swipeable>

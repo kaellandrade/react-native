@@ -22,8 +22,7 @@ import MonthImage from '../../assets/imgs/month.png';
 import WeekImage from '../../assets/imgs/week.png';
 
 import AddTask from './AddTasks';
-import { greeting } from '../util/getMoment';
-import { server, showError, showSuccess } from '../common';
+import { server, showError } from '../common';
 import axios from 'axios';
 
 const initialState = {
@@ -108,7 +107,7 @@ class TaskList extends Component {
         if (this.state.showDoneTasks) {
             visibleTasks = [...this.state.tasks];
         } else {
-            const pending = task => task.doneAt === undefined;
+            const pending = task => task.doneAt == undefined;
             visibleTasks = this.state.tasks.filter(pending);
         }
         this.setState({ ...this.state, visibleTasks });
@@ -120,7 +119,11 @@ class TaskList extends Component {
     }
 
     toggleDarkModel = _ => {
-        this.setState({ darkModel: !this.state.darkModel }, _ => { AsyncStorage.setItem('taskState', JSON.stringify({ darkModel: this.state.darkModel, showDoneTasks: this.state.showDoneTasks })) })
+        this.setState({ darkModel: !this.state.darkModel }, _ => {
+            AsyncStorage.setItem('taskState', JSON.stringify({
+                darkModel: this.state.darkModel, showDoneTasks: this.state.showDoneTasks
+            }))
+        })
     }
 
     /**

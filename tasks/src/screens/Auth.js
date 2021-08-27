@@ -4,22 +4,21 @@ import {
     View,
     StyleSheet,
     ImageBackground,
-    TouchableOpacity,
-    Alert
+    TouchableOpacity
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import backGroundImage from '../../assets/imgs/login.jpg'
 import comonStyles from '../comonStyles';
 import If from '../components/If';
+import AsyncStorage from '@react-native-community/async-storage';
 import AuthInput from '../components/AuthInput';
-
 import axios from 'axios';
 import { server, showError, showSuccess } from '../common'
 
 const initialState = {
     name: '',
-    email: 'mikael.java@gmail.com', // TODO: DEBUG
-    password: '12345678', // TODO: DEBUG
+    email: '',
+    password: '',
     confirmPassword: '',
     stageNew: false,
     secureEntryModel: true
@@ -43,9 +42,11 @@ class Auth extends Component {
                 password: this.state.password
             });
 
+            AsyncStorage.setItem('userData', JSON.stringify(res.data)); // Quando logado será inserido no Async
+
             // Setando no header Autorization para futuras requisições
             axios.defaults.headers.common['Authorization'] = `bearer ${res.data.token}`
-            this.props.navigation.navigate('Home', { user: 'Kaell' });
+            this.props.navigation.navigate('Home', res.data);
         } catch (error) {
             showError(error.response.data.msg)
         }
