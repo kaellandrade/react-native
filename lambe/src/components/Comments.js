@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { Text, View, StyleSheet, Dimensions, Alert } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
+
 
 /**
  * Tranforma uma lista de comentários em um componente Jsx.
