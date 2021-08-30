@@ -6,75 +6,44 @@ import Feed from './screens/Feed';
 import { NavigationContainer } from '@react-navigation/native';
 const Tab = createBottomTabNavigator();
 
-const MyTabs = _ => {
+const Navigator = _ => {
     return (
         <NavigationContainer>
+            <Tab.Navigator
+                sho
+                initialRouteName="Feed"
+                screenOptions={({ route }) => ({
+                    tabBarIcon: ({ focused, color, size }) => {
+                        let iconeName;
+                        let iconColor = 'black';
+                        let iconSize = 25;
+                        if (focused) {
+                            iconSize = 30;
+                            iconColor = '#307af0'
+                        }
 
-            <Tab.Navigator initialRouteName="Feed"
-                screenOptions={{
-                    tabBarActiveTintColor: '#e91e63',
-                    headerShown: false
-                }}>
-                <Tab.Screen name="Feed" component={Feed} options={{
-                    title: 'Feed',
-                    tabBarIcon: ({ tintColor }) => <Icon name='home' size={30} color={tintColor} />
-                }}
+                        if (route.name === 'Feed') {
+                            iconeName = 'home'
+                        } else if (route.name === 'AddPhoto') {
+                            iconeName = 'camera'
+                        } else {
+                            iconeName = 'user'
+                        }
+                        return <Icon name={iconeName} size={iconSize} color={iconColor} />
+                    },
+                    headerShown: false,
+                    tabBarShowLabel: false,
+                })
+                }
 
 
-                />
-                <Tab.Screen name="AddPhoto" component={Feed} options={{
-                    title: 'AddPhoto',
-                    tabBarIcon: ({ tintColor }) => <Icon name='camera' size={30} color={tintColor} />
-                }}
+            >
 
-
-                />
-                <Tab.Screen name="Profile" component={Feed} options={{
-                    title: 'Profile',
-                    tabBarIcon: ({ tintColor }) => <Icon name='user' size={30} color={tintColor} />
-                }}
-                />
+                <Tab.Screen name="Feed" component={Feed} options={{ title: 'Feed' }} />
+                <Tab.Screen name="AddPhoto" component={Feed} options={{ title: 'AddPhoto', }} />
+                <Tab.Screen name="Profile" component={Feed} options={{ title: 'Profile', }} />
             </Tab.Navigator>
         </NavigationContainer>
     );
 }
-
-
-const MenuRoutes = {
-    Feed: {
-        name: 'Feed',
-        screen: Feed,
-        navigationOptions: {
-            title: 'Feed',
-            tabBarIcon: ({ tintColor }) => <Icon name='home' size={30} color={tintColor} />
-        }
-    },
-    Add: {
-        name: 'AddPhoto',
-        screen: Feed,
-        navigationOptions: {
-            title: 'Add Picture',
-            tabBarIcon: ({ tintColor }) => <Icon name='camera' size={30} color={tintColor} />
-        }
-    },
-    Profile: {
-        name: 'Profile',
-        screen: Feed,
-        navigationOptions: {
-            title: 'Profile',
-            tabBarIcon: ({ tintColor }) => <Icon name='user' size={30} color={tintColor} />
-        }
-    }
-}
-
-const MenuConfig = {
-    initialRouteName: 'Feed',
-    tabBarOptions: {
-        showLabel: false
-    }
-}
-
-
-// const MenuNvigator = createBottomTabNavigator(MenuRoutes, MenuConfig);
-
-export default MyTabs;
+export default Navigator;
