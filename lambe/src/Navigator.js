@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Feed from './screens/Feed';
 import AddPhoto from './screens/AddPhoto';
+import Profile from './screens/Profile';
 import { NavigationContainer } from '@react-navigation/native';
 const Tab = createBottomTabNavigator();
 
@@ -44,7 +45,7 @@ const Navigator = _ => {
 
                 <Tab.Screen name="Feed" component={Feed} options={{ title: 'Feed' }, { tabBarBadge: 10 }} />
                 <Tab.Screen name="AddPhoto" component={AddPhoto} options={{ title: 'AddPhoto', }} />
-                <Tab.Screen name="Profile" component={Feed} options={{ title: 'Profile', }} />
+                <Tab.Screen name="Profile" component={Profile} options={{ title: 'Profile', }} />
             </Tab.Navigator>
         </NavigationContainer >
     );

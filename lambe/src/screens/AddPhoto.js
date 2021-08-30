@@ -12,7 +12,9 @@ import {
     Alert
 } from 'react-native';
 
-import ImagePicker from 'react-native-image-picker';
+import * as ImagePicker from 'react-native-image-picker';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import IconButton from '../components/IconButton';
 
 class AddPhoto extends Component {
     state = {
@@ -20,14 +22,17 @@ class AddPhoto extends Component {
         comment: ''
     }
 
-    pickImage = _ => {
-        ImagePicker.showImagePicker({
-            title: 'Adicione uma imagem',
+    pickImage = (funcType) => {
+        ImagePicker[funcType]({
             maxHeight: 600,
-            maxWidth: 800
+            maxWidth: 800,
+            storageOptions: {
+                skipBackup: true,
+                path: 'images',
+            },
         }, (res) => {
             if (!res.didCancel) {
-                this.setState({ image: { uri: res.uri, base64: res.data } })
+                this.setState({ image: { uri: res.assets[0].uri } })
             }
         })
     }
@@ -45,17 +50,34 @@ class AddPhoto extends Component {
                     <View styles={styles.imageContainer}>
                         <Image source={this.state.image} style={styles.image} />
                     </View>
-                    <TouchableOpacity onPress={this.pickImage} style={styles.button}>
-                        <Text style={styles.buttonText}>Escolha a foto</Text>
-                    </TouchableOpacity>
+                    <View style={styles.buttonGroup}>
+                        <IconButton
+                            label='Galeria'
+                            name='image'
+                            press={_ => this.pickImage('launchImageLibrary')}
+                            color='tomato'
+
+                        />
+                        <IconButton
+                            label='Tirar Foto'
+                            name='camera'
+                            press={_ => this.pickImage('launchCamera')}
+                            color='#AA0'
+
+                        />
+                    </View>
                     <TextInput placeholder='Comentário...'
                         style={styles.input}
                         value={this.state.comment}
                         onChangeText={comment => this.setState({ comment })}
                     />
-                    <TouchableOpacity onPress={this.save} style={styles.button}>
-                        <Text style={styles.buttonText}>Salvar</Text>
-                    </TouchableOpacity>
+                    <IconButton
+                        label='Salvar'
+                        name='image'
+                        press={this.save}
+                        color='#004'
+
+                    />
                 </View>
             </ScrollView>
         )
@@ -79,25 +101,28 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     image: {
-        width:'100%',
+        width: '100%',
         backgroundColor: '#EEE',
         width: Dimensions.get('window').width,
-        height: Dgit aimensions.get('window').width / 2,
+        height: Dimensions.get('window').width / 2,
         resizeMode: 'center'
 
     },
     button: {
-        marginTop: 30,
+        // flex: 1,
         padding: 10,
-        backgroundColor: '#4286f4'
-    },
-    buttonText: {
-        fontSize: 20,
-        color: 'white'
+        backgroundColor: '#4286f4',
+        borderRadius: 10,
     },
     input: {
         marginTop: 20,
         width: '90%'
+    },
+    buttonGroup: {
+        justifyContent: 'space-around',
+        width: Dimensions.get('window').width,
+        marginTop: 30,
+        flexDirection: 'row',
     }
 });
 
