@@ -5,7 +5,7 @@ import IconButton from '../components/IconButton';
 
 class Profile extends Component {
     logout = () => {
-
+        this.props.navigation.navigate('Auth')
     }
     render() {
         const options = { email: 'mikael.java@gmail.com', secure: true }
