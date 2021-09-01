@@ -4,19 +4,33 @@ import {
     Text,
     View,
     Platform,
-    Image
+    Image,
+    TouchableOpacity
 } from 'react-native';
 import icon from '../../assets/imgs/icon.png';
+import { connect } from 'react-redux';
+import { Gravatar } from 'react-native-gravatar';
+
 /**
  * Cabeçalho da Aplicação.
  */
 class Header extends Component {
+
     render() {
+        const name = this.props.name || 'Anonymous'
+        const gravatar = this.props.email ?
+            <Gravatar
+                options={{ email: this.props.email, secure: true }}
+                style={styles.avatar} /> : null
         return (
             <View style={styles.container}>
                 <View style={styles.rowContainer}>
                     <Image source={icon} style={styles.image} />
                     <Text style={styles.title}>Lambe Lambe</Text>
+                </View>
+                <View style={styles.usercontainer}>
+                    <Text style={styles.user}>{name}</Text>
+                    {gravatar}
                 </View>
             </View>
         );
@@ -29,7 +43,9 @@ const styles = StyleSheet.create({
         padding: 10,
         borderBottomWidth: 1,
         borderColor: '#bbb',
-        width:'100%'
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
     rowContainer: {
         flexDirection: 'row',
@@ -45,6 +61,29 @@ const styles = StyleSheet.create({
         fontFamily: 'shelter',
         height: 30,
         fontSize: 28
+    },
+    usercontainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    user: {
+        fontSize: 10,
+        color: '#888'
+    },
+    avatar: {
+        width: 40,
+        height: 40,
+        marginLeft: 10,
+        borderRadius: 100
     }
+
+
 })
-export default Header;
+const mapStateToprops = ({ user }) => {
+    return {
+        novo: user.novo,
+        email: user.email,
+        name: user.name
+    }
+}
+export default connect(mapStateToprops, null)(Header);

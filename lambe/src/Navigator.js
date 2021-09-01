@@ -14,14 +14,12 @@ import Login from './screens/Login';
 import Register from './screens/Register';
 
 const Tab = createBottomTabNavigator();
-const Stack = createStackNavigator();
 
 // TODO: Tentar usar o REDUX para renderizar as telas
 
 const Navigator = props => {
     return (
         <NavigationContainer>
-
             <Tab.Navigator
                 initialRouteName="Feed"
                 screenOptions={({ route }) => ({
@@ -85,4 +83,3 @@ const mapStateToProps = ({ user }) => {
     }
 }
 export default connect(mapStateToProps, null)(Navigator);
-// export default Navigator;

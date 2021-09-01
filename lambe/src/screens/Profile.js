@@ -8,7 +8,6 @@ import IconButton from '../components/IconButton';
 class Profile extends Component {
     logout = () => {
         this.props.onLogout();
-        // this.props.navigation.navigate('Auth')
     }
     render() {
         const options = { email: this.props.email, secure: true }
@@ -53,9 +52,9 @@ const mapStateToProps = ({ user }) => {
     }
 }
 
-const mapDispatcTohProps = dispatch => {
+const mapDispatchTohProps = dispatch => {
     return {
         onLogout: _ => dispatch(logout())
     }
 }
-export default connect(mapStateToProps, mapDispatcTohProps)(Profile);
+export default connect(mapStateToProps, mapDispatchTohProps)(Profile);

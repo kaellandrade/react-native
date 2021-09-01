@@ -8,7 +8,7 @@ import { login } from '../store/actions/user'
 
 class Login extends Component {
     state = {
-        name: 'Temporário',
+        name: 'Micael',
         email: '',
         password: ''
     }
