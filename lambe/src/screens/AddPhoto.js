@@ -13,29 +13,32 @@ import {
 } from 'react-native';
 
 import * as ImagePicker from 'react-native-image-picker';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import IconButton from '../components/IconButton';
+
 
 class AddPhoto extends Component {
     state = {
         image: null,
         comment: ''
     }
-
-    pickImage = (funcType) => {
-        ImagePicker[funcType]({
-            maxHeight: 600,
-            maxWidth: 800,
-            storageOptions: {
-                skipBackup: true,
-                path: 'images',
-            },
-        }, (res) => {
-            if (!res.didCancel) {
-                this.setState({ image: { uri: res.assets[0].uri } })
-            }
-        })
+    captureOrLibrary = (type) => {
+        if (type.type == 'library') {
+            ImagePicker.launchImageLibrary(type.options, res => {
+                if (!res.didCancel) {
+                    this.setState({ image: { uri: res.assets[0].uri } })
+                } else {
+                    console.log('Cancelado')
+                }
+            })
+        } else {
+            ImagePicker.launchCamera(type.options, res => {
+                if (!res.didCancel) {
+                    this.setState({ image: { uri: res.assets[0].uri } })
+                }
+            })
+        }
     }
+
 
     save = async () => {
         Alert.alert('Imagem adicionada!', this.state.comment)
@@ -54,14 +57,32 @@ class AddPhoto extends Component {
                         <IconButton
                             label='Galeria'
                             name='image'
-                            press={_ => this.pickImage('launchImageLibrary')}
+                            press={_ => this.captureOrLibrary({
+                                type: 'library',
+                                options: {
+                                    maxHeight: 500,
+                                    maxWidth: 500,
+                                    selectionLimit: 0,
+                                    mediaType: 'photo',
+                                    includeBase64: false,
+                                },
+                            })}
                             color='tomato'
 
                         />
                         <IconButton
                             label='Tirar Foto'
                             name='camera'
-                            press={_ => this.pickImage('launchCamera')}
+                            press={_ => this.captureOrLibrary(
+                                {
+                                    type: 'capture',
+                                    options: {
+                                        saveToPhotos: true,
+                                        mediaType: 'photo',
+                                        includeBase64: false,
+                                    },
+                                }
+                            )}
                             color='#AA0'
 
                         />
@@ -125,5 +146,21 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     }
 });
+
+
+const actions = [
+    ,
+    {
+        title: 'Select Image',
+        type: 'library',
+        options: {
+            maxHeight: 500,
+            maxWidth: 500,
+            selectionLimit: 0,
+            mediaType: 'photo',
+            includeBase64: false,
+        },
+    }
+];
 
 export default AddPhoto;

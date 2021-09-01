@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput } from 'react-native';
 
 import IconButton from '../components/IconButton';
 
+import { connect } from 'react-redux';
+import { login } from '../store/actions/user'
 
 class Login extends Component {
     state = {
+        name: 'Temporário',
         email: '',
         password: ''
     }
 
     login = () => {
-        console.log(this.props.navigation)
+        this.props.onLogin({ ...this.state })
     }
 
     render() {
@@ -31,8 +34,7 @@ class Login extends Component {
                     onChangeText={password => this.setState({ password })}
                 />
                 <IconButton name='thumbs-up' color='#3D9970' press={this.login} label='Login' />
-                <IconButton name='plus-square' color='#0074D9' press={_ => { }} label='Criar nova conta...' />
-
+                <IconButton name='plus-square' color='#0074D9' press={_ => { console.warn('Abrir tela de Login') }} label='Criar nova conta...' />
             </View>
         )
     }
@@ -52,4 +54,11 @@ const styles = StyleSheet.create({
         borderColor: '#333'
     }
 })
-export default Login;
+
+const mapDispatcTohProps = dispatch => {
+    return {
+
+        onLogin: user => dispatch(login(user))
+    }
+}
+export default connect(null, mapDispatcTohProps)(Login)
