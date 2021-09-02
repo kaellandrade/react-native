@@ -2,91 +2,14 @@ import React, { Component } from 'react';
 import { StyleSheet, FlatList, View } from 'react-native';
 import Header from '../components/Header';
 import Post from '../components/Post';
-
+import { connect } from 'react-redux'
 class Feed extends Component {
-    state = {
-        posts: [
-            {
-                id: Math.random(),
-                nickname: 'Micael Andrade',
-                email: 'micael..java@gmail.com',
-                image: require('../../assets/imgs/fence.jpg'),
-                comments: [{
-                    nickname: 'John Ray Sheldon',
-                    comment: 'Stunnig!'
-                },
-                {
-                    nickname: 'Manoel Silva',
-                    comment: 'Foto Legal!'
-                }, {
-                    nickname: 'Breno Barroso',
-                    comment: 'Uau!'
-                },
-                {
-                    nickname: 'Miriã',
-                    comment: 'Linda!!'
-                }
-                ]
-            },
-            {
-                id: Math.random(),
-                nickname: 'Joice',
-                email: 'joice.@gmail.com',
-                image: require('../../assets/imgs/bw.jpg'),
-                comments: [{
-                    nickname: 'John Ray Sheldon',
-                    comment: 'Stunnig!'
-                },
-                {
-                    nickname: 'Manoel Silva',
-                    comment: 'Foto Legal!'
-                }, {
-                    nickname: 'Breno Barroso',
-                    comment: 'Uau!'
-                },
-                {
-                    nickname: 'Miriã',
-                    comment: 'Linda!!'
-                }
-                ]
-            }, {
-                id: Math.random(),
-                nickname: 'Pedro',
-                email: 'ppdro.@gmail.com',
-                image: require('../../assets/imgs/boat.jpg'),
-                comments: [{
-                    nickname: 'Uelton',
-                    comment: 'Gostei muito!'
-                },
-                {
-                    nickname: 'Manoel Silva',
-                    comment: 'Foto Legal!'
-                }, {
-                    nickname: 'Caio',
-                    comment: 'Legal!'
-                },
-                {
-                    nickname: 'Slivania',
-                    comment: 'Gostei!!'
-                }
-                ]
-            },
-            {
-                id: Math.random(),
-                nickname: 'Jota',
-                email: 'jj.@gmail.com',
-                image: require('../../assets/imgs/gate.jpg'),
-                comments: [
-                ]
-            }
-        ]
-    }
     render() {
         return (
             <View style={styles.container}>
                 <Header />
                 <FlatList
-                    data={this.state.posts}
+                    data={this.props.posts}
                     keyExtractor={item => `${item.id}`}
                     renderItem={({ item }) => <Post key={item.id} {...item} />}
                 />
@@ -104,4 +27,10 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Feed;
+const mapStateToProps = ({ posts }) => {
+    return ({
+        posts: posts.posts
+    })
+}
+
+export default connect(mapStateToProps, null)(Feed);

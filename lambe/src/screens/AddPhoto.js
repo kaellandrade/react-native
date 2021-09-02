@@ -3,7 +3,6 @@ import {
     View,
     Text,
     StyleSheet,
-    TouchableOpacity,
     TextInput,
     Image,
     Dimensions,
@@ -14,7 +13,8 @@ import {
 
 import * as ImagePicker from 'react-native-image-picker';
 import IconButton from '../components/IconButton';
-
+import { connect } from 'react-redux'
+import { addPost } from '../store/actions/post'
 
 class AddPhoto extends Component {
     state = {
@@ -41,7 +41,18 @@ class AddPhoto extends Component {
 
 
     save = async () => {
-        Alert.alert('Imagem adicionada!', this.state.comment)
+        this.props.onAddPost({
+            id: Math.random(),
+            nickname: this.props.name,
+            email: this.props.email,
+            image: this.state.image,
+            comments: [{
+                nickname: this.props.name,
+                comment: this.state.comment
+            }]
+        })
+        this.setState({ image: null, comment: '' });
+        this.props.navigation.navigate('Feed')
     }
 
     render() {
@@ -147,20 +158,17 @@ const styles = StyleSheet.create({
     }
 });
 
-
-const actions = [
-    ,
-    {
-        title: 'Select Image',
-        type: 'library',
-        options: {
-            maxHeight: 500,
-            maxWidth: 500,
-            selectionLimit: 0,
-            mediaType: 'photo',
-            includeBase64: false,
-        },
+const mapStateToProps = ({ user }) => {
+    return {
+        email: user.email,
+        name: user.name
     }
-];
+}
 
-export default AddPhoto;
+const mapDispatchToProps = dispatch => {
+    return {
+        onAddPost: post => dispatch(addPost(post))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddPhoto);
