@@ -51,7 +51,7 @@ const Navigator = props => {
                 }
             >
 
-                <Tab.Screen name="Feed" component={Feed} options={{ title: 'Feed' }, { tabBarBadge: 10 }} />
+                <Tab.Screen name="Feed" component={Feed} options={{ title: 'Feed' }} />
                 {
                     props.email ? (
                         // Usuário conectado

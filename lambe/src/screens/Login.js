@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput, ImageBackground } from 'react-native';
 
 import IconButton from '../components/IconButton';
 
 import { connect } from 'react-redux';
 import { login } from '../store/actions/user'
-
+import Icon from 'react-native-vector-icons/FontAwesome';
+import image from '../../assets/imgs/back.jpg'
 class Login extends Component {
     state = {
         name: 'Micael',
         email: '',
-        password: ''
+        password: '',
+        securePass: true,
     }
 
     login = () => {
@@ -19,40 +21,80 @@ class Login extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <TextInput
-                    placeholder='Email'
-                    style={styles.input} autoFocus={true}
-                    keyboardType='email-address'
-                    value={this.state.email}
-                    onChangeText={email => this.setState({ email })}
-                />
-                <TextInput
-                    placeholder='Senha' style={styles.input}
-                    secureTextEntry={true}
-                    value={this.state.password}
-                    onChangeText={password => this.setState({ password })}
-                />
-                <IconButton name='thumbs-up' color='#3D9970' press={this.login} label='Login' />
-                <IconButton name='plus-square' color='#0074D9' press={_ => { console.warn('Abrir tela de Login') }} label='Criar nova conta...' />
-            </View>
+            <ImageBackground blurRadius={0} source={image} style={styles.container}>
+                <View style={styles.inputGroups}>
+                    <TextInput
+                        placeholderTextColor='#7779'
+                        placeholder='Email'
+                        style={styles.input} autoFocus={true}
+                        keyboardType='email-address'
+                        value={this.state.email}
+                        onChangeText={email => this.setState({ email })}
+                    />
+                    <View style={styles.passwordButton}>
+                        <TextInput
+                            placeholderTextColor='#7779'
+                            placeholder='Senha'
+                            style={[styles.input]}
+                            secureTextEntry={this.state.securePass}
+                            value={this.state.password}
+                            onChangeText={password => this.setState({ password })}
+                        />
+                        <Icon onPress={_ => { this.setState({ securePass: !this.state.securePass }) }}
+                            style={styles.icon}
+                            color='#001f3f'
+                            name={this.state.securePass ? 'eye-slash' : 'eye'} size={30} />
+                    </View>
+                </View>
+                <View style={styles.btnGroups}>
+                    <IconButton style={{ color: 'blue' }} name='thumbs-up' color='#fd5c59' press={this.login} label='Login' />
+                    <IconButton name='plus-square' color='#374138' press={_ => { console.warn('Abrir tela de Login') }} label='Criar nova conta...' />
+                </View>
+            </ImageBackground>
         )
     }
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: "center"
+        alignContent: 'center',
+        justifyContent: 'center',
+    },
+    inputGroups: {
+        width: '90%',
+        // ...debug('tomato'),
+        alignSelf: 'center'
+    },
+    btnGroups: {
+        width: '90%',
+        // ...debug('pink'),
+        alignSelf: 'center',
+    },
+    passwordButton: {
+        // ...debug('black'),
+        position: 'relative',
+    },
+    icon: {
+        position: 'absolute',
+        right: 8,
+        top: 21,
+        height: 60,
+
+
+
     },
     input: {
-        marginTop: 20,
-        width: '90%',
-        backgroundColor: '#eee',
-        height: 40,
-        borderWidth: 1,
-        borderColor: '#333'
+        backgroundColor: '#DDDDDD',
+        height: 60,
+        borderColor: '#333',
+        color: 'black',
+        padding: 15,
+        fontSize: 20,
+        marginTop: 10,
+        borderRadius: 10
     }
+
 })
 
 const mapDispatcTohProps = dispatch => {
