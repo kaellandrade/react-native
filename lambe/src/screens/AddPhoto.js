@@ -25,7 +25,7 @@ class AddPhoto extends Component {
         if (type.type == 'library') {
             ImagePicker.launchImageLibrary(type.options, res => {
                 if (!res.didCancel) {
-                    this.setState({ image: { uri: res.assets[0].uri } })
+                    this.setState({ image: { uri: res.assets[0].uri, base64: res.assets[0].base64 } })
                 } else {
                     console.log('Cancelado')
                 }
@@ -33,7 +33,7 @@ class AddPhoto extends Component {
         } else {
             ImagePicker.launchCamera(type.options, res => {
                 if (!res.didCancel) {
-                    this.setState({ image: { uri: res.assets[0].uri } })
+                    this.setState({ image: { uri: res.assets[0].uri, base64: res.assets[0].base64 } })
                 }
             })
         }
@@ -75,7 +75,7 @@ class AddPhoto extends Component {
                                     maxWidth: 500,
                                     selectionLimit: 0,
                                     mediaType: 'photo',
-                                    includeBase64: false,
+                                    includeBase64: true,
                                 },
                             })}
                             color='tomato'
@@ -90,7 +90,7 @@ class AddPhoto extends Component {
                                     options: {
                                         saveToPhotos: true,
                                         mediaType: 'photo',
-                                        includeBase64: false,
+                                        includeBase64: true,
                                     },
                                 }
                             )}

@@ -1,4 +1,6 @@
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, compose, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
+
 import UserReducer from './reducer/user'
 import postsReducer from './reducer/post'
 
@@ -12,7 +14,7 @@ const reducers = combineReducers({
 })
 
 const storeConfig = _ => {
-    return createStore(reducers);
+    return createStore(reducers, compose(applyMiddleware(thunk)));
 }
 
 export default storeConfig;
