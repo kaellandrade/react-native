@@ -1,26 +1,24 @@
-import { Container, Center, FlatList, Box } from 'native-base';
+import { FlatList, Box } from 'native-base';
 import React from 'react';
 import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { flex } from 'styled-system';
 import Header from '../components/Header';
-import { borderDebug } from '../util//functionsDebugs'
 import IconBtn from '../components/IconButton'
 import { ESTILOS_COMUNS } from '../styles/estilosComuns';
+import { randomColor } from '../util/randomColor';
+import { SearchBar } from 'react-native-elements'
+import { borderDebug } from '../util/functionsDebugs';
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 const renderFriend = ({ item }) => {
+    const iniciaisRegx = /\b\w/gi;
+    const [nome] = item.nome.match(iniciaisRegx);
     return (
-        <Box
-            style={estilos.boxFrind}
-            m={0.5}
-            rounded={10}
-            p={2}
-            shadow={0.5}
-        >
-            <Box
-                style={estilos.avatar}
-            >
-
+        <Box style={estilos.boxFrind} m={0.5} rounded={10} p={2} shadow={0.5}>
+            <Box style={[estilos.avatar, { backgroundColor: randomColor() }]}>
+                <View style={{ flexDirection: 'row' }}>
+                    <Text style={{ fontSize: 25 }}>{nome}</Text>
+                </View>
             </Box>
 
             <View style={{ flex: 1 }}>
@@ -39,20 +37,32 @@ const renderFriend = ({ item }) => {
         </Box>
     )
 }
-
+// TODO: organizar os estilos
 const AmigoSecreto = props => {
     const amigosCadastrados = props.cadastrados
     return (
         <View style={estilos.container}>
             <Header titulo='Adicione seus Amigos!' />
-            <SafeAreaView style={estilos.conteudo}>
-                <View>
-                    <FlatList
-                        data={amigosCadastrados}
-                        renderItem={renderFriend}
-                        keyExtractor={item => item.id}
+            <View style={{ flexDirection: 'row', backgroundColor: 'white', justifyContent: 'space-between' }}>
+                <View style={{ width: '70%' }}>
+                    <SearchBar
+                        placeholder="Procurar amigo..."
+                        lightTheme={true}
+                        containerStyle={{ padding: 0 }}
+
                     />
                 </View>
+                <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, justifyContent: 'space-around' }}>
+                    <Icon color={ESTILOS_COMUNS.cores.amizade} name='users' size={ESTILOS_COMUNS.iconesTamanhos.grande} />
+                    <Text style={estilos.placar}>{amigosCadastrados.length}</Text>
+                </View>
+            </View>
+            <SafeAreaView style={estilos.conteudo}>
+                <FlatList
+                    data={amigosCadastrados}
+                    renderItem={renderFriend}
+                    keyExtractor={item => item.id}
+                />
 
             </SafeAreaView>
         </View >
@@ -74,7 +84,9 @@ const estilos = StyleSheet.create({
         width: 50,
         height: 50,
         borderRadius: 25,
-        marginRight: 5
+        marginRight: 5,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     boxFrind: {
         flex: 1,
@@ -96,6 +108,10 @@ const estilos = StyleSheet.create({
     email: {
         fontFamily: ESTILOS_COMUNS.fontPrincipal.light,
         fontSize: 15
+    },
+    placar: {
+        fontFamily: ESTILOS_COMUNS.fontPrincipal.bold,
+        fontSize: 30
     }
 })
 

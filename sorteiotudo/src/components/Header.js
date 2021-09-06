@@ -22,6 +22,8 @@ const Header = props => {
 const estilos = StyleSheet.create({
     box: {
         flexDirection: 'row',
+        borderWidth:1,
+        borderBottomColor:ESTILOS_COMUNS.cores.secundaria
     },
     title: {
         fontSize: ESTILOS_COMUNS.fontSize.title,
@@ -41,7 +43,8 @@ const estilos = StyleSheet.create({
     },
     contentTitle: {
         flex: 1,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        backgroundColor:'white'
     }
 });
 
