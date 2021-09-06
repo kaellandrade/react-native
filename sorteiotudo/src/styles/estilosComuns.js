@@ -1,4 +1,8 @@
 const ESTILOS_COMUNS = {
+    fontSize:{
+        title: 30,
+        subTitle: 15
+    },
     fontPrincipal: {
         regular: 'Roboto-Regular',
         light: 'Roboto-Light',
