@@ -1,24 +1,22 @@
-import { FlatList, Box } from 'native-base';
-import React from 'react';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Box, Fab } from 'native-base';
+import React, { useState } from 'react';
+import { Dimensions, SafeAreaView, StyleSheet, Text, TouchableNativeFeedback, View } from 'react-native';
 import { connect } from 'react-redux';
-import Header from '../components/Header';
 import IconBtn from '../components/IconButton'
 import { ESTILOS_COMUNS } from '../styles/estilosComuns';
 import { randomColor } from '../util/randomColor';
-import { SearchBar } from 'react-native-elements'
-import { borderDebug } from '../util/functionsDebugs';
+import { Header, FAB } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import Painel from '../components/painelSearch';
+import BtnSorteio from '../components/BtnSorteio';
 
 const renderFriend = ({ item }) => {
     const iniciaisRegx = /\b\w/gi;
     const [nome] = item.nome.match(iniciaisRegx);
     return (
-        <Box style={estilos.boxFrind} m={0.5} rounded={10} p={2} shadow={0.5}>
+        <Box style={estilos.boxFrind} m={0.5} rounded={10} p={2} shadow={0.7}>
             <Box style={[estilos.avatar, { backgroundColor: randomColor() }]}>
-                <View style={{ flexDirection: 'row' }}>
-                    <Text style={{ fontSize: 25 }}>{nome}</Text>
-                </View>
+                <Text style={{ fontSize: 25 }}>{nome}</Text>
             </Box>
 
             <View style={{ flex: 1 }}>
@@ -37,34 +35,43 @@ const renderFriend = ({ item }) => {
         </Box>
     )
 }
-// TODO: organizar os estilos
+
 const AmigoSecreto = props => {
     const amigosCadastrados = props.cadastrados
     return (
         <View style={estilos.container}>
-            <Header titulo='Adicione seus Amigos!' />
-            <View style={{ flexDirection: 'row', backgroundColor: 'white', justifyContent: 'space-between' }}>
-                <View style={{ width: '70%' }}>
-                    <SearchBar
-                        placeholder="Procurar amigo..."
-                        lightTheme={true}
-                        containerStyle={{ padding: 0 }}
+            <Header
+                barStyle="default"
+                placement="center"
+                leftComponent={{ icon: 'menu', color: '#fff' }}
+                centerComponent={
+                    {
+                        text: 'Adicione seus amigos!',
+                        style: {
+                            color: '#fff',
+                            fontFamily: ESTILOS_COMUNS.fontPrincipal.light,
+                            fontSize: 20
+                        }
+                    }
+                }
 
-                    />
-                </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1, justifyContent: 'space-around' }}>
-                    <Icon color={ESTILOS_COMUNS.cores.amizade} name='users' size={ESTILOS_COMUNS.iconesTamanhos.grande} />
-                    <Text style={estilos.placar}>{amigosCadastrados.length}</Text>
-                </View>
-            </View>
+            />
+            {/* //TODO: ELIMINAR <Header titulo='Adicione seus Amigos!' /> */}
+            <Painel />
             <SafeAreaView style={estilos.conteudo}>
                 <FlatList
                     data={amigosCadastrados}
                     renderItem={renderFriend}
                     keyExtractor={item => item.id}
                 />
-
+                <TouchableNativeFeedback>
+                    <View style={estilos.butonAdd}>
+                        <Icon color={ESTILOS_COMUNS.cores.secundaria} name='plus' size={ESTILOS_COMUNS.iconesTamanhos.grande} />
+                    </View>
+                </TouchableNativeFeedback>
+                
             </SafeAreaView>
+            <BtnSorteio/>
         </View >
     );
 }
@@ -72,11 +79,9 @@ const AmigoSecreto = props => {
 const estilos = StyleSheet.create({
     container: {
         flex: 1,
-        // ...borderDebug(1, 'red')
     },
     conteudo: {
         flex: 1,
-        // ...borderDebug(1, 'blue'),
         backgroundColor: ESTILOS_COMUNS.cores.secundaria
     },
     avatar: {
@@ -86,7 +91,8 @@ const estilos = StyleSheet.create({
         borderRadius: 25,
         marginRight: 5,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderColor: 'black'
     },
     boxFrind: {
         flex: 1,
@@ -109,10 +115,30 @@ const estilos = StyleSheet.create({
         fontFamily: ESTILOS_COMUNS.fontPrincipal.light,
         fontSize: 15
     },
-    placar: {
-        fontFamily: ESTILOS_COMUNS.fontPrincipal.bold,
-        fontSize: 30
+    butonAdd: {
+        backgroundColor: ESTILOS_COMUNS.cores.sucesso,
+        width: 60,
+        height: 60,
+        borderRadius: 30,
+        position: 'absolute',
+        bottom: 10,
+        right: Dimensions.get('window').width * 1 / 2 - 30,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderColor: ESTILOS_COMUNS.cores.principal,
+        borderWidth: 1,
+        shadowColor: "#000",
+
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+
+        elevation: 4,
     }
+
 })
 
 const mapStateToProps = ({ friends }) => {
