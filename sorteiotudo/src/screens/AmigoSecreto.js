@@ -1,15 +1,16 @@
-import { FlatList, Box, Fab } from 'native-base';
+import { FlatList, Box } from 'native-base';
 import React, { useState } from 'react';
-import { Dimensions, SafeAreaView, StyleSheet, Text, TouchableNativeFeedback, View } from 'react-native';
+import { Dimensions, SafeAreaView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { connect } from 'react-redux';
 import IconBtn from '../components/IconButton'
 import { ESTILOS_COMUNS } from '../styles/estilosComuns';
 import { randomColor } from '../util/randomColor';
-import { Header, FAB } from 'react-native-elements'
+import { Header } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Painel from '../components/painelSearch';
 import BtnSorteio from '../components/BtnSorteio';
-
+import ModalFrind from '../components/ModalFrinds';
+import { openModal } from '../store/actions/modal';
 const renderFriend = ({ item }) => {
     const iniciaisRegx = /\b\w/gi;
     const [nome] = item.nome.match(iniciaisRegx);
@@ -40,6 +41,7 @@ const AmigoSecreto = props => {
     const amigosCadastrados = props.cadastrados
     return (
         <View style={estilos.container}>
+            <ModalFrind />
             <Header
                 barStyle="default"
                 placement="center"
@@ -64,14 +66,13 @@ const AmigoSecreto = props => {
                     renderItem={renderFriend}
                     keyExtractor={item => item.id}
                 />
-                <TouchableNativeFeedback>
+                <TouchableWithoutFeedback onPress={_ => props.openModal()}>
                     <View style={estilos.butonAdd}>
                         <Icon color={ESTILOS_COMUNS.cores.secundaria} name='plus' size={ESTILOS_COMUNS.iconesTamanhos.grande} />
                     </View>
-                </TouchableNativeFeedback>
-                
+                </TouchableWithoutFeedback>
             </SafeAreaView>
-            <BtnSorteio/>
+            <BtnSorteio />
         </View >
     );
 }
@@ -143,8 +144,14 @@ const estilos = StyleSheet.create({
 
 const mapStateToProps = ({ friends }) => {
     return {
-        cadastrados: friends.amigosCadastrados
+        cadastrados: friends.amigosCadastrados,
     }
 }
 
-export default connect(mapStateToProps, null)(AmigoSecreto);
+const mapDispatchToProps = dispach => {
+    return {
+        openModal: _ => dispach(openModal())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AmigoSecreto);

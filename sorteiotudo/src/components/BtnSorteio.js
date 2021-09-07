@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableNativeFeedback, View, StyleSheet, Dimensions } from 'react-native';
+import { TouchableNativeFeedback, View, StyleSheet, Dimensions, TouchableWithoutFeedback } from 'react-native';
 import { ESTILOS_COMUNS } from '../styles/estilosComuns';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Fragment } from 'react';
@@ -31,14 +31,14 @@ class BtnSorteio extends Component {
 
                 />
 
-                <TouchableNativeFeedback onPress={_ => this.setState({ showOptions: !this.state.showOptions })}>
+                <TouchableWithoutFeedback onPress={_ => this.setState({ showOptions: !this.state.showOptions })}>
                     <View style={estilos.sorteio}>
                         <Icon color={ESTILOS_COMUNS.cores.secundaria}
                             name='gift'
                             size={ESTILOS_COMUNS.iconesTamanhos.grande}
                         />
                     </View>
-                </TouchableNativeFeedback>
+                </TouchableWithoutFeedback>
             </Fragment>
         );
     }

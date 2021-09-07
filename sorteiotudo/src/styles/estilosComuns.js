@@ -14,7 +14,7 @@ const ESTILOS_COMUNS = {
     cores: {
         principal: '#222',
         secundaria: '#f1f0f1',
-        perigo: '#f94144',
+        perigo: '#d50000',
         cuidado: '#f9c74f',
         sucesso: '#90be6d',
         larajan: '#f8961e',
