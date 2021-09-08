@@ -1,8 +1,27 @@
-import React, { useState } from "react"
-import { Button, Modal, Input } from "native-base"
+import React, { useRef, useState } from "react"
+import { Button, Modal, Input, useToast } from "native-base"
 import { connect } from "react-redux"
 import { closeModal } from "../store/actions/modal"
+import { addFriend } from '../store/actions/amigoSecreto'
+import { VAZIO } from '../util/constantes'
 const ModalFrind = props => {
+    const inputName = useRef(null)
+    const [nome, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const toast = useToast();
+
+    const updateOrAdd = _ => {
+        if (props.updateMode) {
+            console.log('Atualiza!')
+        } else {
+            props.addFriend({ nome, email })
+            setName('');
+            setEmail('');
+            inputName.current.focus();
+            toast.show({ title: 'Amigo adicionado 😀!', placement: 'top' })
+        }
+    }
+
     return (
         <Modal
             isOpen={props.showModal}
@@ -16,10 +35,18 @@ const ModalFrind = props => {
                     <Input
                         mt={4}
                         placeholder="Nome do amigo..."
+                        value={nome}
+                        onChangeText={nome => setName(nome)}
+                        autoFocus
+                        ref={inputName}
+                        
                     />
                     <Input
                         mt={4}
                         placeholder="E-mail do amigo"
+                        value={email}
+                        onChangeText={email => setEmail(email)}
+
                     />
                 </Modal.Body>
                 <Modal.Footer>
@@ -30,7 +57,12 @@ const ModalFrind = props => {
                         >
                             Fechar
                         </Button>
-                        <Button onPress={props.addFrind}>Cadastrar</Button>
+                        <Button
+                            onPress={updateOrAdd}
+                            disabled={nome.length === VAZIO || email.length === VAZIO}
+                        >
+                            {props.updateMode ? 'Atualizar' : 'Cadastrar'}
+                        </Button>
                     </Button.Group>
                 </Modal.Footer>
             </Modal.Content>
@@ -46,7 +78,9 @@ const mapStateToProps = ({ modal }) => {
 }
 const mapDispatchToProps = dispach => {
     return {
-        closeModal: _ => dispach(closeModal())
+        closeModal: _ => dispach(closeModal()),
+        addFriend: frind => dispach(addFriend(frind))
+
 
     }
 }

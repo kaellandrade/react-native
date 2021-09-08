@@ -67,8 +67,14 @@ const initialState = {
 
 reducer = (state = initialState, action) => {
     if (action.type === ADD_FRIEND) {
+        const newFrind = {
+            id: Math.random(),
+            ...action.payload
+        }
+        console.log(newFrind)
         return {
-            ...state
+            ...state,
+            amigosCadastrados: state.amigosCadastrados.concat(newFrind)
         }
     } else if (action.type === DELETE_FRIEND) {
         return {

@@ -1,0 +1,3 @@
+const VAZIO = 0;
+const NUMERO_MINIMO_AMIGOS = 3;
+export { VAZIO, NUMERO_MINIMO_AMIGOS }

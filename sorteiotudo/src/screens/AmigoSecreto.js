@@ -1,5 +1,5 @@
 import { FlatList, Box } from 'native-base';
-import React, { useState } from 'react';
+import React from 'react';
 import { Dimensions, SafeAreaView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
 import { connect } from 'react-redux';
 import IconBtn from '../components/IconButton'
@@ -11,8 +11,9 @@ import Painel from '../components/painelSearch';
 import BtnSorteio from '../components/BtnSorteio';
 import ModalFrind from '../components/ModalFrinds';
 import { openModal } from '../store/actions/modal';
-import { deleteFriend } from '../store/actions/amigoSecreto';
+import { deleteFriend, addFriend } from '../store/actions/amigoSecreto';
 import TutorialAdd from '../components/TutorialAdd';
+import { VAZIO, NUMERO_MINIMO_AMIGOS } from '../util/constantes';
 /**
  * Função responsável por renderizar os amigos.
  */
@@ -32,7 +33,8 @@ const renderFriend = ({ item }, props) => {
 
             <View style={estilos.btnGroups}>
                 <IconBtn
-                    color={ESTILOS_COMUNS.cores.cuidado}
+                    color={ESTILOS_COMUNS.cores.principal}
+
                     Onpress={_ => props.openModal(true)} name='edit' size={ESTILOS_COMUNS.iconesTamanhos.grande} />
                 <IconBtn
                     color={ESTILOS_COMUNS.cores.perigo}
@@ -53,7 +55,7 @@ const AmigoSecreto = props => {
                 leftComponent={{ icon: 'menu', color: '#fff' }}
                 centerComponent={
                     {
-                        text: 'Adicione seus amigos!',
+                        text: 'Amigo Secreto',
                         style: {
                             color: '#fff',
                             fontFamily: ESTILOS_COMUNS.fontPrincipal.light,
@@ -66,7 +68,7 @@ const AmigoSecreto = props => {
             <Painel totalFrinds={amigosCadastrados.length} />
             <SafeAreaView style={estilos.conteudo}>
                 {
-                    amigosCadastrados.length === 0 ? <TutorialAdd /> : <FlatList
+                    amigosCadastrados.length === VAZIO ? <TutorialAdd /> : <FlatList
                         data={amigosCadastrados}
                         renderItem={item => renderFriend(item, props)}
                         keyExtractor={item => item.id}
@@ -80,7 +82,9 @@ const AmigoSecreto = props => {
                     </View>
                 </TouchableWithoutFeedback>
             </SafeAreaView>
-            <BtnSorteio />
+            {
+                amigosCadastrados.length >= NUMERO_MINIMO_AMIGOS ? <BtnSorteio /> : null
+            }
         </View >
     );
 }
@@ -114,7 +118,7 @@ const estilos = StyleSheet.create({
     btnGroups: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginRight: 10
+        marginRight: 10,
     },
     nome: {
         fontFamily: ESTILOS_COMUNS.fontPrincipal.medium,
@@ -159,7 +163,8 @@ const mapStateToProps = ({ friends }) => {
 const mapDispatchToProps = dispach => {
     return {
         openModal: mode => dispach(openModal(mode)),
-        deleteFriend: id => dispach(deleteFriend(id))
+        deleteFriend: id => dispach(deleteFriend(id)),
+        addFriend: frind => dispach(addFriend(frind))
     }
 }
 

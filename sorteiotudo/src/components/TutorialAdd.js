@@ -3,39 +3,43 @@ import React from 'react';
 import { Text, View, StyleSheet, ImageBackground, Image } from 'react-native';
 import { ESTILOS_COMUNS } from '../styles/estilosComuns';
 import { borderDebug } from '../util/functionsDebugs';
-import boxGifit from '../../assets/img/giftBox.png'
-import { height } from 'styled-system';
+import boxGifit from '../../assets/img/empty.png'
 
 const TutorialAdd = props => {
     return (
         <View style={estilos.container}>
-            <View style={estilos.boxDesenho}>
+            <ImageBackground resizeMode='contain' style={estilos.backGround} source={boxGifit}>
                 <Text style={estilos.textoDica}>
-                    Adicine seus amigos!
+                    Adicione seus amigos...
                 </Text>
-            </View>
-            <ImageBackground style={estilos.backGround} source={boxGifit} />
+            </ImageBackground>
         </View >
     );
 }
 const estilos = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
     },
     textoDica: {
-        fontFamily: ESTILOS_COMUNS.fontPrincipal.thin,
-        fontSize: 40,
+        fontFamily: ESTILOS_COMUNS.fontPrincipal.light,
+        fontSize: 30,
         textAlign: 'center',
+        backgroundColor:ESTILOS_COMUNS.cores.principal,
+        paddingTop:30,
+        paddingBottom:30,
+        opacity:0.6,
+        color:ESTILOS_COMUNS.cores.secundaria
+
     },
     boxDesenho: {
         marginTop: 50
 
     },
     backGround: {
-        width: 500,
-        height: 500,
-        opacity: 0.1
+        flex: 1,
+        justifyContent: 'center',
+        opacity: 0.7,
+
     }
 })
 export default TutorialAdd;

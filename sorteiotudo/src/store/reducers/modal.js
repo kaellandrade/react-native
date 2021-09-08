@@ -2,10 +2,6 @@ import { OPEN_MODAL, CLOSE_MODAL } from "../actions/actionsTypes";
 const initialState = {
     showModal: false,
     updateMode: false,
-    nomeAmigo: null,
-    emailAmigo: null,
-    idAmigo: null,
-
 }
 
 reducerModal = (state = initialState, action) => {
