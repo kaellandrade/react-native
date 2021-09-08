@@ -22,7 +22,7 @@ const Painel = props => {
                     color={ESTILOS_COMUNS.cores.azulPrimario}
                     name='person-add-outline'
                     size={ESTILOS_COMUNS.iconesTamanhos.grande} />
-                <Text style={estilos.placar}>10</Text>
+                <Text style={estilos.placar}>{props.totalFrinds}</Text>
             </View>
         </View>
     );

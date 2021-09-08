@@ -11,7 +11,12 @@ import Painel from '../components/painelSearch';
 import BtnSorteio from '../components/BtnSorteio';
 import ModalFrind from '../components/ModalFrinds';
 import { openModal } from '../store/actions/modal';
-const renderFriend = ({ item }) => {
+import { deleteFriend } from '../store/actions/amigoSecreto';
+import TutorialAdd from '../components/TutorialAdd';
+/**
+ * Função responsável por renderizar os amigos.
+ */
+const renderFriend = ({ item }, props) => {
     const iniciaisRegx = /\b\w/gi;
     const [nome] = item.nome.match(iniciaisRegx);
     return (
@@ -28,10 +33,10 @@ const renderFriend = ({ item }) => {
             <View style={estilos.btnGroups}>
                 <IconBtn
                     color={ESTILOS_COMUNS.cores.cuidado}
-                    Onpress={_ => console.warn(item.id)} name='edit' size={ESTILOS_COMUNS.iconesTamanhos.grande} />
+                    Onpress={_ => props.openModal(true)} name='edit' size={ESTILOS_COMUNS.iconesTamanhos.grande} />
                 <IconBtn
                     color={ESTILOS_COMUNS.cores.perigo}
-                    Onpress={_ => console.warn(item.id)} name='trash' size={ESTILOS_COMUNS.iconesTamanhos.grande} />
+                    Onpress={_ => props.deleteFriend(item.id)} name='trash' size={ESTILOS_COMUNS.iconesTamanhos.grande} />
             </View>
         </Box>
     )
@@ -58,15 +63,18 @@ const AmigoSecreto = props => {
                 }
 
             />
-            {/* //TODO: ELIMINAR <Header titulo='Adicione seus Amigos!' /> */}
-            <Painel />
+            <Painel totalFrinds={amigosCadastrados.length} />
             <SafeAreaView style={estilos.conteudo}>
-                <FlatList
-                    data={amigosCadastrados}
-                    renderItem={renderFriend}
-                    keyExtractor={item => item.id}
-                />
-                <TouchableWithoutFeedback onPress={_ => props.openModal()}>
+                {
+                    amigosCadastrados.length === 0 ? <TutorialAdd /> : <FlatList
+                        data={amigosCadastrados}
+                        renderItem={item => renderFriend(item, props)}
+                        keyExtractor={item => item.id}
+                    />
+                }
+
+
+                <TouchableWithoutFeedback onPress={_ => props.openModal(false)}>
                     <View style={estilos.butonAdd}>
                         <Icon color={ESTILOS_COMUNS.cores.secundaria} name='plus' size={ESTILOS_COMUNS.iconesTamanhos.grande} />
                     </View>
@@ -150,7 +158,8 @@ const mapStateToProps = ({ friends }) => {
 
 const mapDispatchToProps = dispach => {
     return {
-        openModal: _ => dispach(openModal())
+        openModal: mode => dispach(openModal(mode)),
+        deleteFriend: id => dispach(deleteFriend(id))
     }
 }
 

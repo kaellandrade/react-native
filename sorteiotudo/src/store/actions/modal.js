@@ -6,9 +6,9 @@ export const closeModal = _ => {
         payload: _
     }
 }
-export const openModal = _ => {
+export const openModal = (mode = false) => {
     return {
         type: OPEN_MODAL,
-        payload: _
+        payload: mode
     }
 }

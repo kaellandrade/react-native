@@ -1,15 +1,19 @@
 import { OPEN_MODAL, CLOSE_MODAL } from "../actions/actionsTypes";
 const initialState = {
-    showModal: true,
-    nomeAmigo: '',
-    emailAmigo: ''
+    showModal: false,
+    updateMode: false,
+    nomeAmigo: null,
+    emailAmigo: null,
+    idAmigo: null,
+
 }
 
 reducerModal = (state = initialState, action) => {
     if (action.type === OPEN_MODAL) {
         return {
             ...state,
-            showModal: true
+            showModal: true,
+            updateMode: action.payload
         }
     } else if (action.type === CLOSE_MODAL) {
         return {

@@ -72,7 +72,8 @@ reducer = (state = initialState, action) => {
         }
     } else if (action.type === DELETE_FRIEND) {
         return {
-            ...state
+            ...state,
+            amigosCadastrados: state.amigosCadastrados.filter(({ id }) => (id != action.payload))
         }
     } else {
         return state;

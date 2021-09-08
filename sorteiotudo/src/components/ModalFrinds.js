@@ -40,7 +40,8 @@ const ModalFrind = props => {
 
 const mapStateToProps = ({ modal }) => {
     return {
-        showModal: modal.showModal
+        showModal: modal.showModal,
+        updateMode: modal.updateMode
     }
 }
 const mapDispatchToProps = dispach => {
