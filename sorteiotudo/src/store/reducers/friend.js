@@ -1,64 +1,64 @@
-import { ADD_FRIEND, DELETE_FRIEND } from "../actions/actionsTypes";
+import { ADD_FRIEND, DELETE_FRIEND, UPDATE_FRIEND } from "../actions/actionsTypes";
 
 const initialState = {
     amigosCadastrados: [
         {
             id: Math.random(),
-            nome: 'Silvania Andrade',
+            name: 'Silvania Andrade',
             email: 'silvania.math@gmail.com'
         },
         {
             id: Math.random(),
-            nome: 'Jorge Andrade',
+            name: 'Jorge Andrade',
             email: 'micael.java@gmail.com'
         },
         {
             id: Math.random(),
-            nome: 'Miriã Nicacio',
+            name: 'Miriã Nicacio',
             email: 'miri.python@gmail.com'
         },
         {
             id: Math.random(),
-            nome: 'Adriano Andrade',
+            name: 'Adriano Andrade',
             email: 'adriano.js@gmail.com'
         },
         {
             id: Math.random(),
-            nome: 'Silvania Andrade',
+            name: 'Silvania Andrade',
             email: 'silvania.math@gmail.com'
         },
         {
             id: Math.random(),
-            nome: 'Jorge Andrade',
+            name: 'Jorge Andrade',
             email: 'micael.java@gmail.com'
         },
         {
             id: Math.random(),
-            nome: 'Miriã Nicacio',
+            name: 'Miriã Nicacio',
             email: 'miri.python@gmail.com'
         },
         {
             id: Math.random(),
-            nome: 'Adriano Andrade',
+            name: 'Adriano Andrade',
             email: 'adriano.js@gmail.com'
         }, {
             id: Math.random(),
-            nome: 'Silvania Andrade',
+            name: 'Silvania Andrade',
             email: 'silvania.math@gmail.com'
         },
         {
             id: Math.random(),
-            nome: 'Jorge Andrade',
+            name: 'Jorge Andrade',
             email: 'micael.java@gmail.com'
         },
         {
             id: Math.random(),
-            nome: 'Miriã Nicacio',
+            name: 'Miriã Nicacio',
             email: 'miri.python@gmail.com'
         },
         {
             id: Math.random(),
-            nome: 'Adriano Andrade',
+            name: 'Adriano Andrade',
             email: 'adriano.js@gmail.com'
         },
 
@@ -71,7 +71,6 @@ reducer = (state = initialState, action) => {
             id: Math.random(),
             ...action.payload
         }
-        console.log(newFrind)
         return {
             ...state,
             amigosCadastrados: state.amigosCadastrados.concat(newFrind)
@@ -81,7 +80,18 @@ reducer = (state = initialState, action) => {
             ...state,
             amigosCadastrados: state.amigosCadastrados.filter(({ id }) => (id != action.payload))
         }
-    } else {
+    } else if (action.type === UPDATE_FRIEND) {
+        return {
+            ...state,
+            amigosCadastrados: state.amigosCadastrados.map((friend) => {
+                if (friend.id === action.payload.id)
+                    return { ...friend, name: action.payload.name, email: action.payload.email }
+                else
+                    return friend
+            })
+        }
+    }
+    else {
         return state;
     }
 

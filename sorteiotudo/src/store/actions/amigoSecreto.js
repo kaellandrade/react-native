@@ -1,4 +1,4 @@
-import { ADD_FRIEND, DELETE_FRIEND } from './actionsTypes';
+import { ADD_FRIEND, DELETE_FRIEND, UPDATE_FRIEND } from './actionsTypes';
 /**
  * Ações relacionadas a tela amigo secreto.
  */
@@ -16,4 +16,11 @@ const deleteFriend = friendId => {
     }
 }
 
-export { addFriend, deleteFriend }
+const updateFriend = friendId => {
+    return {
+        type: UPDATE_FRIEND,
+        payload: friendId
+    }
+}
+
+export { addFriend, deleteFriend, updateFriend }

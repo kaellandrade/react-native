@@ -1,27 +1,40 @@
-import React, { useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import { Button, Modal, Input, useToast } from "native-base"
 import { connect } from "react-redux"
 import { closeModal } from "../store/actions/modal"
-import { addFriend } from '../store/actions/amigoSecreto'
+import { addFriend, updateFriend } from '../store/actions/amigoSecreto'
 import { VAZIO } from '../util/constantes'
 const ModalFrind = props => {
     const inputName = useRef(null)
-    const [nome, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const toast = useToast();
+    let [name, setName] = useState('')
+    let [email, setEmail] = useState('')
 
-    const updateOrAdd = _ => {
+    useEffect(_ => {
         if (props.updateMode) {
-            console.log('Atualiza!')
+            setName(String(props.name))
+            setEmail(String(props.email))
         } else {
-            props.addFriend({ nome, email })
-            setName('');
-            setEmail('');
+            setName('')
+            setEmail('')
+
+        }
+
+    }, [props.updateMode])
+
+
+    const toast = useToast();
+    const updateOrAdd = _ => {
+        if (props.id !== undefined) {
+            props.updateFriend({ name, email, id: props.id })
+            props.closeModal()
+        } else { // Modo ADD
+            props.addFriend({ name, email })
+            setName('')
+            setEmail('')
             inputName.current.focus();
             toast.show({ title: 'Amigo adicionado 😀!', placement: 'top' })
         }
     }
-
     return (
         <Modal
             isOpen={props.showModal}
@@ -35,11 +48,11 @@ const ModalFrind = props => {
                     <Input
                         mt={4}
                         placeholder="Nome do amigo..."
-                        value={nome}
-                        onChangeText={nome => setName(nome)}
+                        value={name}
+                        onChangeText={name => setName(name)}
                         autoFocus
                         ref={inputName}
-                        
+
                     />
                     <Input
                         mt={4}
@@ -59,9 +72,9 @@ const ModalFrind = props => {
                         </Button>
                         <Button
                             onPress={updateOrAdd}
-                            disabled={nome.length === VAZIO || email.length === VAZIO}
+                            disabled={name.length === VAZIO || email.length === VAZIO}
                         >
-                            {props.updateMode ? 'Atualizar' : 'Cadastrar'}
+                            {props.name ? 'Atualizar' : 'Cadastrar'}
                         </Button>
                     </Button.Group>
                 </Modal.Footer>
@@ -73,15 +86,17 @@ const ModalFrind = props => {
 const mapStateToProps = ({ modal }) => {
     return {
         showModal: modal.showModal,
-        updateMode: modal.updateMode
+        updateMode: modal.updateMode,
+        name: modal.updateMode.name,
+        email: modal.updateMode.email,
+        id: modal.updateMode.id
     }
 }
 const mapDispatchToProps = dispach => {
     return {
         closeModal: _ => dispach(closeModal()),
-        addFriend: frind => dispach(addFriend(frind))
-
-
+        addFriend: frind => dispach(addFriend(frind)),
+        updateFriend: friend => dispach(updateFriend(friend))
     }
 }
 

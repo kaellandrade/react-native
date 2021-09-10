@@ -3,6 +3,7 @@
  */
 const ADD_FRIEND = 'ADD_FRIEND';
 const DELETE_FRIEND = 'DELETE_FRIEND';
+const UPDATE_FRIEND = 'UPDATE_FRIEND';
 
 /**
  * Ações para o modal.
@@ -15,5 +16,6 @@ export {
     ADD_FRIEND,
     DELETE_FRIEND,
     OPEN_MODAL,
-    CLOSE_MODAL
+    CLOSE_MODAL,
+    UPDATE_FRIEND
 }

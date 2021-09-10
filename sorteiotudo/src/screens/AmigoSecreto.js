@@ -19,7 +19,7 @@ import { VAZIO, NUMERO_MINIMO_AMIGOS } from '../util/constantes';
  */
 const renderFriend = ({ item }, props) => {
     const iniciaisRegx = /\b\w/gi;
-    const [nome] = item.nome.match(iniciaisRegx);
+    const [nome] = item.name.match(iniciaisRegx);
     return (
         <Box style={estilos.boxFrind} m={0.5} rounded={10} p={2} shadow={0.7}>
             <Box style={[estilos.avatar, { backgroundColor: randomColor() }]}>
@@ -27,7 +27,7 @@ const renderFriend = ({ item }, props) => {
             </Box>
 
             <View style={{ flex: 1 }}>
-                <Text style={estilos.nome}>{item.nome}</Text>
+                <Text style={estilos.nome}>{item.name}</Text>
                 <Text style={estilos.email}>{item.email}</Text>
             </View>
 
@@ -35,7 +35,7 @@ const renderFriend = ({ item }, props) => {
                 <IconBtn
                     color={ESTILOS_COMUNS.cores.principal}
 
-                    Onpress={_ => props.openModal(true)} name='edit' size={ESTILOS_COMUNS.iconesTamanhos.grande} />
+                    Onpress={_ => props.openModal({ name: item.name, email: item.email, id: item.id })} name='edit' size={ESTILOS_COMUNS.iconesTamanhos.grande} />
                 <IconBtn
                     color={ESTILOS_COMUNS.cores.perigo}
                     Onpress={_ => props.deleteFriend(item.id)} name='trash' size={ESTILOS_COMUNS.iconesTamanhos.grande} />
@@ -50,9 +50,12 @@ const AmigoSecreto = props => {
         <View style={estilos.container}>
             <ModalFrind />
             <Header
+                backgroundColor={ESTILOS_COMUNS.cores.azulSecundario}
                 barStyle="default"
                 placement="center"
-                leftComponent={{ icon: 'menu', color: '#fff' }}
+                leftComponent={
+                    { icon: 'menu', color: '#fff', onPress: _ => console.log('Abrir menu!') }
+                }
                 centerComponent={
                     {
                         text: 'Amigo Secreto',
@@ -164,7 +167,7 @@ const mapDispatchToProps = dispach => {
     return {
         openModal: mode => dispach(openModal(mode)),
         deleteFriend: id => dispach(deleteFriend(id)),
-        addFriend: frind => dispach(addFriend(frind))
+        addFriend: frind => dispach(addFriend(frind)),
     }
 }
 
