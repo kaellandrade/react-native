@@ -1,4 +1,4 @@
-import { ADD_FRIEND, DELETE_FRIEND, UPDATE_FRIEND } from './actionsTypes';
+import { ADD_FRIEND, DELETE_FRIEND, SORTEAR, UPDATE_FRIEND } from './actionsTypes';
 /**
  * Ações relacionadas a tela amigo secreto.
  */
@@ -22,5 +22,11 @@ const updateFriend = friendId => {
         payload: friendId
     }
 }
+const sortear = value => {
+    return {
+        type: SORTEAR,
+        payload: value
+    }
+}
 
-export { addFriend, deleteFriend, updateFriend }
+export { addFriend, deleteFriend, updateFriend, sortear }

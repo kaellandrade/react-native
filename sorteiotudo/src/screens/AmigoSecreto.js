@@ -1,6 +1,6 @@
 import { FlatList, Box } from 'native-base';
 import React from 'react';
-import { Dimensions, SafeAreaView, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { Alert, Dimensions, SafeAreaView, StyleSheet, Text, TouchableNativeFeedback, View } from 'react-native';
 import { connect } from 'react-redux';
 import IconBtn from '../components/IconButton'
 import { ESTILOS_COMUNS } from '../styles/estilosComuns';
@@ -11,9 +11,13 @@ import Painel from '../components/painelSearch';
 import BtnSorteio from '../components/BtnSorteio';
 import ModalFrind from '../components/ModalFrinds';
 import { openModal } from '../store/actions/modal';
-import { deleteFriend, addFriend } from '../store/actions/amigoSecreto';
+import { deleteFriend, addFriend, sortear } from '../store/actions/amigoSecreto';
 import TutorialAdd from '../components/TutorialAdd';
-import { VAZIO, NUMERO_MINIMO_AMIGOS } from '../util/constantes';
+import { VAZIO, NUMERO_MINIMO_AMIGOS, UM_SEGUNDO_MS } from '../util/constantes';
+import { Vibration } from 'react-native';
+import { SorteioSpinner } from '../components/spinnerSorteio';
+
+
 /**
  * Função responsável por renderizar os amigos.
  */
@@ -47,48 +51,53 @@ const renderFriend = ({ item }, props) => {
 const AmigoSecreto = props => {
     const amigosCadastrados = props.cadastrados
     return (
-        <View style={estilos.container}>
-            <ModalFrind />
-            <Header
-                backgroundColor={ESTILOS_COMUNS.cores.azulSecundario}
-                barStyle="default"
-                placement="center"
-                leftComponent={
-                    { icon: 'menu', color: '#fff', onPress: _ => console.log('Abrir menu!') }
-                }
-                centerComponent={
-                    {
-                        text: 'Amigo Secreto',
-                        style: {
-                            color: '#fff',
-                            fontFamily: ESTILOS_COMUNS.fontPrincipal.light,
-                            fontSize: 20
+        props.telaSorteando ? <SorteioSpinner texto='Sorteando amigos' /> :
+
+            <View style={estilos.container}>
+                <ModalFrind />
+                <Header
+                    backgroundColor={ESTILOS_COMUNS.cores.azulPrimario}
+                    barStyle="default"
+                    placement="center"
+                    leftComponent={
+                        { icon: 'menu', color: '#fff', onPress: _ => console.log('Abrir menu!') }
+                    }
+                    centerComponent={
+                        {
+                            text: 'Amigo Secreto',
+                            style: {
+                                color: '#fff',
+                                fontFamily: ESTILOS_COMUNS.fontPrincipal.light,
+                                fontSize: 20
+                            }
                         }
                     }
-                }
 
-            />
-            <Painel totalFrinds={amigosCadastrados.length} />
-            <SafeAreaView style={estilos.conteudo}>
+                />
+                <Painel totalFrinds={amigosCadastrados.length} />
+                <SafeAreaView style={estilos.conteudo}>
+                    {
+                        amigosCadastrados.length === VAZIO ? <TutorialAdd /> : <FlatList
+                            data={amigosCadastrados}
+                            renderItem={item => renderFriend(item, props)}
+                            keyExtractor={item => item.id}
+                        />
+                    }
+
+
+                    <TouchableNativeFeedback onPress={_ => {
+                        Vibration.vibrate(UM_SEGUNDO_MS * 0.04)
+                        props.openModal(false)
+                    }}>
+                        <View style={estilos.butonAdd}>
+                            <Icon color={ESTILOS_COMUNS.cores.secundaria} name='plus' size={ESTILOS_COMUNS.iconesTamanhos.grande} />
+                        </View>
+                    </TouchableNativeFeedback>
+                </SafeAreaView>
                 {
-                    amigosCadastrados.length === VAZIO ? <TutorialAdd /> : <FlatList
-                        data={amigosCadastrados}
-                        renderItem={item => renderFriend(item, props)}
-                        keyExtractor={item => item.id}
-                    />
+                    amigosCadastrados.length >= NUMERO_MINIMO_AMIGOS ? <BtnSorteio sortear={props.sortear} /> : null
                 }
-
-
-                <TouchableWithoutFeedback onPress={_ => props.openModal(false)}>
-                    <View style={estilos.butonAdd}>
-                        <Icon color={ESTILOS_COMUNS.cores.secundaria} name='plus' size={ESTILOS_COMUNS.iconesTamanhos.grande} />
-                    </View>
-                </TouchableWithoutFeedback>
-            </SafeAreaView>
-            {
-                amigosCadastrados.length >= NUMERO_MINIMO_AMIGOS ? <BtnSorteio /> : null
-            }
-        </View >
+            </View >
     );
 }
 
@@ -160,6 +169,7 @@ const estilos = StyleSheet.create({
 const mapStateToProps = ({ friends }) => {
     return {
         cadastrados: friends.amigosCadastrados,
+        telaSorteando: friends.telaSorteando
     }
 }
 
@@ -168,6 +178,7 @@ const mapDispatchToProps = dispach => {
         openModal: mode => dispach(openModal(mode)),
         deleteFriend: id => dispach(deleteFriend(id)),
         addFriend: frind => dispach(addFriend(frind)),
+        sortear: mode => dispach(sortear(mode))
     }
 }
 

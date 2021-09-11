@@ -1,68 +1,17 @@
-import { ADD_FRIEND, DELETE_FRIEND, UPDATE_FRIEND } from "../actions/actionsTypes";
+import { ADD_FRIEND, DELETE_FRIEND, SORTEAR, UPDATE_FRIEND } from "../actions/actionsTypes";
 
 const initialState = {
-    amigosCadastrados: [
-        {
-            id: Math.random(),
-            name: 'Silvania Andrade',
-            email: 'silvania.math@gmail.com'
-        },
-        {
-            id: Math.random(),
-            name: 'Jorge Andrade',
-            email: 'micael.java@gmail.com'
-        },
-        {
-            id: Math.random(),
-            name: 'Miriã Nicacio',
-            email: 'miri.python@gmail.com'
-        },
-        {
-            id: Math.random(),
-            name: 'Adriano Andrade',
-            email: 'adriano.js@gmail.com'
-        },
-        {
-            id: Math.random(),
-            name: 'Silvania Andrade',
-            email: 'silvania.math@gmail.com'
-        },
-        {
-            id: Math.random(),
-            name: 'Jorge Andrade',
-            email: 'micael.java@gmail.com'
-        },
-        {
-            id: Math.random(),
-            name: 'Miriã Nicacio',
-            email: 'miri.python@gmail.com'
-        },
-        {
-            id: Math.random(),
-            name: 'Adriano Andrade',
-            email: 'adriano.js@gmail.com'
-        }, {
-            id: Math.random(),
-            name: 'Silvania Andrade',
-            email: 'silvania.math@gmail.com'
-        },
-        {
-            id: Math.random(),
-            name: 'Jorge Andrade',
-            email: 'micael.java@gmail.com'
-        },
-        {
-            id: Math.random(),
-            name: 'Miriã Nicacio',
-            email: 'miri.python@gmail.com'
-        },
-        {
-            id: Math.random(),
-            name: 'Adriano Andrade',
-            email: 'adriano.js@gmail.com'
-        },
 
-    ]
+    amigosCadastrados: [
+        { id: Math.random(), name: 'Micael Andrade', email: "mikael.java@gmail.com" },
+        { id: Math.random(), name: 'Joice Andrade', email: "joice.java@gmail.com" },
+        { id: Math.random(), name: 'Paulo Andrade', email: "mikael.java@gmail.com" },
+        { id: Math.random(), name: 'Dani Andrade', email: "mikael.java@gmail.com" },
+        { id: Math.random(), name: 'Manoel Andrade', email: "mikael.java@gmail.com" },
+        { id: Math.random(), name: 'Jéssica Andrade', email: "mikael.java@gmail.com" }
+    ],
+    sorteio: [],
+    telaSorteando: false
 }
 
 reducer = (state = initialState, action) => {
@@ -89,6 +38,11 @@ reducer = (state = initialState, action) => {
                 else
                     return friend
             })
+        }
+    } else if (action.type === SORTEAR) {
+        return {
+            ...state,
+            telaSorteando: action.payload
         }
     }
     else {

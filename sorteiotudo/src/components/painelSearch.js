@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { ESTILOS_COMUNS } from '../styles/estilosComuns';
 import Icon from 'react-native-vector-icons/Ionicons'
 import { SearchBar } from 'react-native-elements';
+import { fontFamily } from 'styled-system';
 const Painel = props => {
     const [search, setSearch] = useState('')
     return (
@@ -14,7 +15,9 @@ const Painel = props => {
                     containerStyle={{ padding: 0 }}
                     value={search}
                     onChangeText={amigo => setSearch(amigo)}
-                    
+                    style={{ fontFamily: ESTILOS_COMUNS.fontPrincipal.light}}
+
+
                 />
             </View>
             <View style={estilos.painelContagem}>
@@ -30,16 +33,17 @@ const Painel = props => {
 
 const estilos = StyleSheet.create({
     placar: {
-        fontFamily: ESTILOS_COMUNS.fontPrincipal.bold,
-        fontSize: 30
+        fontFamily: ESTILOS_COMUNS.fontPrincipal.light,
+        fontSize: 30,
     },
     painel: {
         flexDirection: 'row',
         backgroundColor: 'white',
         justifyContent: 'space-between'
     },
-    painelpesquisa: { width: '70%' },
-    painelContagem: { flexDirection: 'row', alignItems: 'center', flex: 1, justifyContent: 'space-around' }
+    painelpesquisa: { width: '70%', padding:0, margin:0 },
+    painelContagem: { flexDirection: 'row', alignItems: 'center', flex: 1, justifyContent: 'space-around' },
+    
 
 })
 
