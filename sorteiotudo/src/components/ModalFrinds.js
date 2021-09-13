@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 import { closeModal } from "../store/actions/modal"
 import { addFriend, updateFriend } from '../store/actions/amigoSecreto'
 import { VAZIO } from '../util/constantes'
+import { Dimensions } from "react-native"
 const ModalFrind = props => {
     const inputName = useRef(null)
     let [name, setName] = useState('')
@@ -32,7 +33,15 @@ const ModalFrind = props => {
             setName('')
             setEmail('')
             inputName.current.focus();
-            toast.show({ title: 'Amigo adicionado 😀!', placement: 'top' })
+            toast.show(
+                {
+                    title: 'Amigo adicionado!',
+                    placement: 'top',
+                    status: 'success',
+                    description: 'Amigo adicionado! 😄',
+                    width: Dimensions.get('window').width
+                }
+            )
         }
     }
     return (

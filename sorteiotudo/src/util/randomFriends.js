@@ -13,13 +13,20 @@ function randomFrinds([...array]) {
     return array;
 }
 
+const teste = [
+    { id: Math.random(), name: 'Micael Andrade', email: "mikael.java@gmail.com" },
+    { id: Math.random(), name: 'Joice Andrade', email: "joice.java@gmail.com" }
+]
 
 /**
  * Recebe um alista de amigos embaralhada e monta os pares de amigos.
  */
-const paresAmigos = randomFrinds(amigosCadastrados).map((amigo, index, array) => {
-    if (array[index + 1])
-        return { ...amigo, amigoSecreto: array[index + 1] }
-    else
-        return { ...amigo, amigoSecreto: array[0] }
-})
+const sortear = (dada) => {
+    return randomFrinds(dada).map((amigo, index, array) => {
+        if (array[index + 1])
+            return { ...amigo, amigoSecreto: array[index + 1] }
+        else
+            return { ...amigo, amigoSecreto: array[0] }
+    })
+}
+export { sortear }

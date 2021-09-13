@@ -1,7 +1,6 @@
 import { ADD_FRIEND, DELETE_FRIEND, SORTEAR, UPDATE_FRIEND } from "../actions/actionsTypes";
-
+import { sortear } from '../../util/randomFriends'
 const initialState = {
-
     amigosCadastrados: [
         { id: Math.random(), name: 'Micael Andrade', email: "mikael.java@gmail.com" },
         { id: Math.random(), name: 'Joice Andrade', email: "joice.java@gmail.com" },
@@ -42,7 +41,8 @@ reducer = (state = initialState, action) => {
     } else if (action.type === SORTEAR) {
         return {
             ...state,
-            telaSorteando: action.payload
+            telaSorteando: action.payload,
+            sorteio: sortear(state.amigosCadastrados)
         }
     }
     else {

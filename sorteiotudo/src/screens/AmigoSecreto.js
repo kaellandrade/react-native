@@ -1,6 +1,6 @@
 import { FlatList, Box } from 'native-base';
 import React from 'react';
-import { Alert, Dimensions, SafeAreaView, StyleSheet, Text, TouchableNativeFeedback, View } from 'react-native';
+import { Dimensions, SafeAreaView, StyleSheet, Text, TouchableNativeFeedback, View } from 'react-native';
 import { connect } from 'react-redux';
 import IconBtn from '../components/IconButton'
 import { ESTILOS_COMUNS } from '../styles/estilosComuns';
@@ -8,10 +8,10 @@ import { randomColor } from '../util/randomColor';
 import { Header } from 'react-native-elements'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Painel from '../components/painelSearch';
-import BtnSorteio from '../components/BtnSorteio';
+import BtnOptions from '../components/BtnOptions';
 import ModalFrind from '../components/ModalFrinds';
 import { openModal } from '../store/actions/modal';
-import { deleteFriend, addFriend, sortear } from '../store/actions/amigoSecreto';
+import { deleteFriend, addFriend } from '../store/actions/amigoSecreto';
 import TutorialAdd from '../components/TutorialAdd';
 import { VAZIO, NUMERO_MINIMO_AMIGOS, UM_SEGUNDO_MS } from '../util/constantes';
 import { Vibration } from 'react-native';
@@ -56,7 +56,7 @@ const AmigoSecreto = props => {
             <View style={estilos.container}>
                 <ModalFrind />
                 <Header
-                    backgroundColor={ESTILOS_COMUNS.cores.azulPrimario}
+                    backgroundColor={ESTILOS_COMUNS.cores.sucesso}
                     barStyle="default"
                     placement="center"
                     leftComponent={
@@ -95,7 +95,7 @@ const AmigoSecreto = props => {
                     </TouchableNativeFeedback>
                 </SafeAreaView>
                 {
-                    amigosCadastrados.length >= NUMERO_MINIMO_AMIGOS ? <BtnSorteio sortear={props.sortear} /> : null
+                    amigosCadastrados.length >= NUMERO_MINIMO_AMIGOS ? <BtnOptions /> : null
                 }
             </View >
     );
@@ -178,7 +178,6 @@ const mapDispatchToProps = dispach => {
         openModal: mode => dispach(openModal(mode)),
         deleteFriend: id => dispach(deleteFriend(id)),
         addFriend: frind => dispach(addFriend(frind)),
-        sortear: mode => dispach(sortear(mode))
     }
 }
 
