@@ -17,7 +17,7 @@ import { Gravatar } from 'react-native-gravatar';
 class Header extends Component {
 
     render() {
-        const name = this.props.name || 'Anonymous'
+        const email = this.props.email || 'Anonymous'
         const gravatar = this.props.email ?
             <Gravatar
                 options={{ email: this.props.email, secure: true }}
@@ -29,7 +29,7 @@ class Header extends Component {
                     <Text style={styles.title}>Lambe Lambe</Text>
                 </View>
                 <View style={styles.usercontainer}>
-                    <Text style={styles.user}>{name}</Text>
+                    <Text style={styles.user}>{email}</Text>
                     {gravatar}
                 </View>
             </View>

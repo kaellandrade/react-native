@@ -66,7 +66,7 @@ const Navigator = props => {
                                 options={{ title: 'Login' }}
                             />
 
-                            {/* <Stack.Screen name="Register" component={Register} /> */}
+                            <Tab.Screen name="Register" component={Register} />
 
                         </Fragment>
                     )

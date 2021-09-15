@@ -7,9 +7,19 @@ import {
     TextInput
 } from 'react-native';
 import IconButton from '../components/IconButton';
-
+import firebase from 'firebase';
 class Register extends Component {
     state = { name: '', email: '', password: '' }
+
+    register = () => {
+        const { name, email, password } = this.state
+        firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then((resp) => {
+                console.log(resp)
+            }).catch((err) => {
+                console.log(err)
+            })
+    }
 
     render() {
         return (
@@ -36,7 +46,7 @@ class Register extends Component {
                     onChangeText={password => this.setState({ password })}
                 />
                 <IconButton
-                    press={_ => console.warn(this.state.name)}
+                    press={this.register}
                     label='Registrar'
                     name='sign-out'
                     size={20}

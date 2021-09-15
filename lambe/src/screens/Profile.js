@@ -4,10 +4,17 @@ import { logout } from '../store/actions/user'
 import { Text, View, StyleSheet } from 'react-native';
 import { Gravatar } from 'react-native-gravatar';
 import IconButton from '../components/IconButton';
+import firebase from 'firebase';
 
 class Profile extends Component {
     logout = () => {
-        this.props.onLogout();
+        firebase.auth().signOut()
+            .then((resp) => {
+                this.props.onLogout();
+            }).catch((err) => {
+                console.log(err)
+            })
+
     }
     render() {
         const options = { email: this.props.email, secure: true }

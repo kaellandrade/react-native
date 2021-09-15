@@ -1,6 +1,5 @@
 import { ADD_POST, ADD_COMMENT } from './actionsTypes'
 import axios from 'axios'
-
 export const addPost = post => {
 
     return dispatch => {
