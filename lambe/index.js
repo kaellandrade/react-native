@@ -20,7 +20,7 @@ const firebaseConfig = {
 };
 
 
-// axios.defaults.baseURL = fireBaseConfig.authDomain;
+axios.defaults.baseURL = firebaseConfig.databaseURL;
 import storeConfig from './src/store/storeConfig';
 const store = storeConfig()
 if (firebase.apps.length === 0) {
