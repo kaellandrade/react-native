@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { login } from '../store/actions/user'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import image from '../../assets/imgs/back.jpg'
-import firebase from 'firebase';
+import * as firebase from 'firebase';
 
 class Login extends Component {
     state = {
@@ -18,7 +18,6 @@ class Login extends Component {
     }
 
     login = () => {
-
         firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
             .then((res) => {
                 console.log(res)

@@ -15,14 +15,15 @@ const firebaseConfig = {
     storageBucket: "instagram-lambe.appspot.com",
     messagingSenderId: "596143632135",
     appId: "1:596143632135:web:bbe14303b50066aead1fa2",
-    measurementId: "G-YDR24HEZ5D"
+    measurementId: "G-YDR24HEZ5D",
+    databaseURL: "https://instagram-lambe-default-rtdb.firebaseio.com/"
 };
 
 
 // axios.defaults.baseURL = fireBaseConfig.authDomain;
 import storeConfig from './src/store/storeConfig';
 const store = storeConfig()
-if(firebase.apps.length === 0){
+if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig)
 }
 const Redux = _ => (

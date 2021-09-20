@@ -13,8 +13,10 @@ class Register extends Component {
 
     register = () => {
         const { name, email, password } = this.state
+        const db = firebase.database().refFromURL('https://instagram-lambe-default-rtdb.firebaseio.com/')
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then((resp) => {
+                db.set({ name, email, uid: resp.user.uid })
                 console.log(resp)
             }).catch((err) => {
                 console.log(err)
