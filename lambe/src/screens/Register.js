@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import {
     View,
-    Text,
     StyleSheet,
-    TouchableOpacity,
-    TextInput
+    TextInput,
+    ImageBackground
 } from 'react-native';
 import IconButton from '../components/IconButton';
 import firebase from 'firebase';
+import image from '../../assets/imgs/back.jpg'
+
 class Register extends Component {
     state = { name: '', email: '', password: '' }
 
@@ -23,36 +24,38 @@ class Register extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
-                <TextInput
-                    placeholder='Nome'
-                    style={styles.input}
-                    autoFocus={true}
-                    value={this.state.name}
-                    onChangeText={name => this.setState({ name })}
-                />
-                <TextInput
-                    placeholder='Email'
-                    style={styles.input}
-                    value={this.state.email}
-                    onChangeText={email => this.setState({ email })}
-                    keyboardType='email-address'
-                />
-                <TextInput
-                    placeholder='Senha'
-                    style={styles.input}
-                    secureTextEntry={true}
-                    value={this.state.password}
-                    onChangeText={password => this.setState({ password })}
-                />
-                <IconButton
-                    press={this.register}
-                    label='Registrar'
-                    name='sign-out'
-                    size={20}
-                    color='tomato'
-                />
-            </View>
+            <ImageBackground blurRadius={0} source={image} style={styles.container}>
+                <View style={styles.inputGroups}>
+                    <TextInput
+                        placeholder='Nome'
+                        style={styles.input}
+                        autoFocus={true}
+                        value={this.state.name}
+                        onChangeText={name => this.setState({ name })}
+                    />
+                    <TextInput
+                        placeholder='Email'
+                        style={styles.input}
+                        value={this.state.email}
+                        onChangeText={email => this.setState({ email })}
+                        keyboardType='email-address'
+                    />
+                    <TextInput
+                        placeholder='Senha'
+                        style={styles.input}
+                        secureTextEntry={true}
+                        value={this.state.password}
+                        onChangeText={password => this.setState({ password })}
+                    />
+                    <IconButton
+                        press={this.register}
+                        label='Registrar'
+                        name='sign-out'
+                        size={20}
+                        color='tomato'
+                    />
+                </View>
+            </ImageBackground>
         )
     }
 }
@@ -64,13 +67,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     input: {
-        marginTop: 20,
-        width: '90%',
-        backgroundColor: '#EEE',
-        height: 40,
-        borderWidth: 1,
+        backgroundColor: '#DDDDDD',
+        height: 60,
         borderColor: '#333',
-        paddingLeft: 15
+        color: 'black',
+        padding: 15,
+        fontSize: 20,
+        marginTop: 10,
+        borderRadius: 10
+    },
+    inputGroups: {
+        width: '90%',
+        alignSelf: 'center'
     }
 })
 export default Register;

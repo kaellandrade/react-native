@@ -9,4 +9,5 @@ Alguns projetos simples que aprendi no curso [React Native: Desenvolva APPs Nati
   <img src="./rncrud/telas/read.jpg" width="200" title='Crud Context API'/> 
   <img src="./calculator/telas/calculadora.jpg" width="200" title='Calculadora'/>
   <img src="./tasks/telas/hoje.png" width="200" title='Todo'/>
+   <img title='Clone Instagram' src="./lambe/telas/feed.png" width="200" /> 
 </p>

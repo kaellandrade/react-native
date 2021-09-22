@@ -1,9 +1,15 @@
-import { ADD_POST, ADD_COMMENT, SET_POSTS } from '../actions/actionsTypes';
+import {
+    ADD_POST,
+    ADD_COMMENT,
+    SET_POSTS,
+    CREATING_POST,
+    POST_CREATED
+} from '../actions/actionsTypes';
 
 const initialState = {
     posts: [
-
-    ]
+    ],
+    isUploading: false
 }
 
 const reducer = (state = initialState, action) => {
@@ -32,6 +38,16 @@ const reducer = (state = initialState, action) => {
         return {
             ...state,
             posts: action.payload
+        }
+    } else if (action.type === CREATING_POST) {
+        return {
+            ...state,
+            isUploading: true
+        }
+    } else if (action.type === POST_CREATED) {
+        return {
+            ...state,
+            isUploading: false
         }
     }
     else {

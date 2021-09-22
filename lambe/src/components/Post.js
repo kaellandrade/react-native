@@ -15,6 +15,7 @@ class Post extends Component {
                 <Author nickname={this.props.nickname} email={this.props.email} />
                 <Comments comments={this.props.comments} />
                 {addComment}
+                <View style={styles.line} />
             </View>
         );
     }
@@ -28,6 +29,14 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width,
         height: Dimensions.get('window').width * 3 / 4,
         resizeMode: 'contain'
+    },
+    line: {
+        
+        borderBottomColor: 'gray',
+        borderBottomWidth: 1,
+        borderStyle:'dashed',
+        margin:10,
+        opacity:0.2
     }
 });
 

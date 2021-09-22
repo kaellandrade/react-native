@@ -21,6 +21,21 @@ class AddPhoto extends Component {
         image: null,
         comment: ''
     }
+    /**
+     * Depois que estiver atualizada
+     */
+    componentDidUpdate = prevProps => {
+
+        if (prevProps.loading && !this.props.loading) {
+            this.setState({
+                image: null,
+                comment: ''
+            })
+            this.props.navigation.navigate('Feed')
+        }
+    }
+
+
     captureOrLibrary = (type) => {
         if (type.type == 'library') {
             ImagePicker.launchImageLibrary(type.options, res => {
@@ -51,13 +66,10 @@ class AddPhoto extends Component {
                 comment: this.state.comment
             }]
         })
-        this.setState({ image: null, comment: '' });
-        this.props.navigation.navigate('Feed')
     }
 
     render() {
         return (
-
             <ScrollView>
                 <View style={styles.container}>
                     <Text style={styles.title}>Compartilhe uma imagem</Text>
@@ -97,18 +109,18 @@ class AddPhoto extends Component {
                             color='#AA0'
 
                         />
+                        <IconButton
+                            label='Salvar'
+                            name='image'
+                            press={this.save}
+                            color='#004'
+                            disabled={this.props.loading || !this.state.image}
+                        />
                     </View>
                     <TextInput placeholder='Comentário...'
                         style={styles.input}
                         value={this.state.comment}
                         onChangeText={comment => this.setState({ comment })}
-                    />
-                    <IconButton
-                        label='Salvar'
-                        name='image'
-                        press={this.save}
-                        color='#004'
-
                     />
                 </View>
             </ScrollView>
@@ -158,10 +170,11 @@ const styles = StyleSheet.create({
     }
 });
 
-const mapStateToProps = ({ user }) => {
+const mapStateToProps = ({ user, posts }) => {
     return {
         email: user.email,
-        name: user.name
+        name: user.name,
+        loading: posts.isUploading
     }
 }
 

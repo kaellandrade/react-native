@@ -20,10 +20,14 @@ class Comments extends Component {
     render() {
         let view = null;
         if (this.props.comments) {
-            view = this.props.comments.map((item, index) => (
-                <View style={styles.commentContainer} key={index}>
-                    <this.oneComent nickname={item.nickname} comment={item.comment} />
-                </View>)
+            view = this.props.comments.map((item, index) => {
+                if (item) {
+                    return (
+                        <View style={styles.commentContainer} key={index}>
+                            <this.oneComent nickname={item.nickname} comment={item.comment} />
+                        </View>)
+                }
+            }
             )
         }
         return (
