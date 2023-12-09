@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { View, FlatList, Image, TouchableWithoutFeedback } from "react-native";
 import styles from "./styles";
 
-export default function Carrossel({ data }) {
+export default function Carrossel({ data,tempoAnimacao }) {
     const carroselRef = useRef();
     const [index, setIndex] = useState(0);
     const [intervalo, setIntervalo] = useState(null);
@@ -11,7 +11,7 @@ export default function Carrossel({ data }) {
         carroselRef.current.scrollToIndex({ index })
         setIntervalo(setInterval(() => {
             alterarPosicaoObjeto();
-        }, 2000));
+        }, tempoAnimacao));
 
 
         return () => clearInterval(intervalo);

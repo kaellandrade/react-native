@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
-import { View, Text, StatusBar, Image, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, StatusBar, Image, TouchableOpacity, LayoutAnimation } from 'react-native';
 import FundoOndulado from '../../componentes/FundoOndulado';
 import { TelaDeFundo } from '../../componentes/TelaDeFundo';
 import { Formulario } from '../../componentes/Formulario';
 import itens from './cards';
 import styles from './styles';
 import Carrossel from '../../componentes/Carrossel';
+import { layoutAnimationLogin } from '../../../animations';
 
 export default function Onboarding({ navigation }) {
+  const TEMPOANIMACAO_CARROSSEL = 2000;
   const [fazerLogin, setFazerLogin] = useState(false);
   const [altura, setAltura] = useState(250);
+  LayoutAnimation.configureNext(layoutAnimationLogin, () => console.log('Animação terminada!'))
 
   function avancar() {
     if (fazerLogin) {
       navigation.navigate('Principal');
     } else {
       setAltura(400);
+      LayoutAnimation.linear();
       setFazerLogin(true);
     }
   }
@@ -30,7 +34,7 @@ export default function Onboarding({ navigation }) {
         />
 
         <View style={styles.carrosselArea}>
-          {!fazerLogin && (<Carrossel data={itens} />)}
+          {!fazerLogin && (<Carrossel tempoAnimacao={TEMPOANIMACAO_CARROSSEL} data={itens} />)}
         </View>
         <Image
           source={require('../../assets/medica.png')}

@@ -15,4 +15,7 @@ export default StyleSheet.create({
     color: "#464646",
     marginTop: 20,
   },
+  containerFlat: {
+    width: '100%'
+  }
 });
