@@ -1,4 +1,6 @@
-const pacientes = [
+import { Paciente } from "../../../types/pacientes";
+
+const pacientes : Paciente[] = [
   {
     id: 1,
     nome: "Larissa Santana",
@@ -7,7 +9,7 @@ const pacientes = [
     foto: require("../../assets/larissa.png"),
     icon: "map-pin",
     sobre: "Voluptatum odio autem numquam dolores? Sit? Integer ipsum explicabo soluta hymenaeos dolores. Distinctio d...",
-    endereco: "Av. Rio Branco, 333, 201 - Rio de Janeiro, RJ"
+    endereco: "Rua Gov mangabeira, 333, 201 - Rio de Janeiro, RJ"
   },
   {
     id: 2,

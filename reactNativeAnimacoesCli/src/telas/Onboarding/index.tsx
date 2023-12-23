@@ -7,12 +7,13 @@ import itens from './cards';
 import styles from './styles';
 import Carrossel from '../../componentes/Carrossel';
 import { layoutAnimationLogin } from '../../../animations';
+import { Float } from 'react-native/Libraries/Types/CodegenTypes';
 
 export default function Onboarding({ navigation }) {
   const TEMPOANIMACAO_CARROSSEL = 2000;
-  const [fazerLogin, setFazerLogin] = useState(false);
-  const [altura, setAltura] = useState(250);
-  LayoutAnimation.configureNext(layoutAnimationLogin, () => console.log('Animação terminada!'))
+  const [fazerLogin, setFazerLogin] = useState<Boolean>(false);
+  const [altura, setAltura] = useState<Float>(250);
+  LayoutAnimation.configureNext(layoutAnimationLogin, () => console.log('Animação terminada!'));
 
   function avancar() {
     if (fazerLogin) {

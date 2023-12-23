@@ -8,8 +8,8 @@ export function InformacaoUsuarioSkeleton() {
     <View style={[styles.container, { backgroundColor: '#FFFF', borderRadius: 8 }]}>
       <Image source={skeletonPerLoading} style={[styles.foto, { overlayColor: '#FFFF', margin: 5 }]} />
       <View style={styles.informacoes}>
-        <Image source={skeletonPerLoading} style={[styles.foto, styles.nome, { width: '90%', height: 30, marginTop: 5, overlayColor: '#FFFF', borderRadius: 5 }]} />
-        <Image source={skeletonPerLoading} style={[styles.foto, styles.consultas, { width: '40%', height: 15, marginTop: 5, marginBottom: 5, overlayColor: '#FFFF', borderRadius: 5 }]} />
+        <Image source={skeletonPerLoading} style={[styles.foto, { width: '90%', height: 30, marginTop: 5, overlayColor: '#FFFF', borderRadius: 5 }]} />
+        <Image source={skeletonPerLoading} style={[styles.foto, { width: '40%', height: 15, marginTop: 5, marginBottom: 5, overlayColor: '#FFFF', borderRadius: 5 }]} />
       </View>
     </View>
   );

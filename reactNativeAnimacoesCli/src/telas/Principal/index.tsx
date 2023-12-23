@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, LayoutAnimation } from "react-native";
 import { InformacoesUsuario } from "../../componentes/InformacoesUsuario";
 import { CardConsulta } from "../../componentes/CardConsulta";
 import { TelaDeFundo } from "../../componentes/TelaDeFundo";
@@ -8,13 +8,16 @@ import pacientes from "./pacientes";
 import styles from "./styles";
 import { CardSkeletonLoading } from "../../skeletonLoading/CardConsulta";
 import { InformacaoUsuarioSkeleton } from "../../skeletonLoading/InformacoesUsuario";
+import { Paciente } from "../../../types/pacientes";
+import { layoutAnimationLisagem } from "../../../animations";
 
 export default function Principal({ navigation }) {
-  const [loadingCads, setLoading] = useState(true);
-  const [loadingPerfil, setLoadingPerfil] = useState(true);
+  const [loadingCads, setLoading] = useState<Boolean>(true);
+  const [loadingPerfil, setLoadingPerfil] = useState<Boolean>(true);
 
+  LayoutAnimation.configureNext(layoutAnimationLisagem, () => console.log('Animação listagem terminada!'));
 
-  const renderItens = (pacientes) => {
+  const renderItens = (pacientes: Paciente[]) => {
     if (loadingCads) {
       return (
         <FlatList
@@ -56,7 +59,7 @@ export default function Principal({ navigation }) {
 
   return (
     <TelaDeFundo>
-      <View style={styles.container}>
+      <View style={styles.container}>       
         {(loadingPerfil)
           ? <InformacaoUsuarioSkeleton />
           :

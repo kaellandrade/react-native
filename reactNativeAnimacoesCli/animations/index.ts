@@ -9,4 +9,13 @@ const layoutAnimationLogin: LayoutAnimationConfig = {
     },
 };
 
-export { layoutAnimationLogin };
+const layoutAnimationLisagem: LayoutAnimationConfig = {
+    duration: 1000,
+    create: {
+        type: LayoutAnimation.Types.linear,
+        property: LayoutAnimation.Properties.opacity,
+        springDamping: 0.7
+    },
+};
+
+export { layoutAnimationLogin,layoutAnimationLisagem };

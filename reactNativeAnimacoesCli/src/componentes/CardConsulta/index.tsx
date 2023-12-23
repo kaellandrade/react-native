@@ -2,8 +2,9 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import styles from "./styles";
 import Icon from 'react-native-vector-icons/Feather';
+import { Paciente } from "../../../types/pacientes";
 
-export function CardConsulta({ nome, foto, horario, tipoConsulta, icon }) {
+export function CardConsulta({ nome, foto, horario, tipoConsulta, icon }: Paciente) {
   return (
     <View style={styles.container}>
       <View style={styles.pessoaArea}>
@@ -19,17 +20,17 @@ export function CardConsulta({ nome, foto, horario, tipoConsulta, icon }) {
       <View style={styles.informacoesAgendamento}>
         <Text style={styles.texto}>{horario}</Text>
         <View style={styles.botoesArea}>
-          {icon === "video" ? 
-          <>
-            <TouchableOpacity style={[styles.botao, { backgroundColor: '#FFB050' }]}>
-              <Text style={styles.botaoTexto}>Ligar por vídeo</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.botao}>
-              <Text style={styles.botaoTexto}>Ligar por áudio</Text>
-            </TouchableOpacity>
-          </> :
+          {icon === "video" ?
+            <>
+              <TouchableOpacity style={[styles.botao, { backgroundColor: '#FFB050' }]}>
+                <Text style={styles.botaoTexto}>Ligar por vídeo</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.botao}>
+                <Text style={styles.botaoTexto}>Ligar por áudio</Text>
+              </TouchableOpacity>
+            </> :
             <TouchableOpacity style={styles.botaoLocalizacao}>
-              <Text style={[styles.botaoTexto, {color: '#FFF'}]}>Ver endereço</Text>
+              <Text style={[styles.botaoTexto, { color: '#FFF' }]}>Ver endereço</Text>
             </TouchableOpacity>
           }
         </View>
