@@ -22,7 +22,7 @@ Esse projeto é utilizado na formação base de React Native da plataforma da Al
 
 
 <h1 align="center">
-    <img alt="Demonstracao" title="Demonstracao" src=".images/demo.gif" width="400px" />
+    <img alt="Demonstracao" title="Demonstracao" src=".images/animacaos.gif" width="400px" />
 </h1>
 
 
